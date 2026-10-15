@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Reaction Time | [Site Name]</title>
+<meta name="description" content="Measure how fast you react to a light and a sound, then find out where those milliseconds go inside your nervous system.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+<script type="module" src="../js/reaction-time.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="site-name" href="../">[Site Name]</a>
+    <nav aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../reaction-time/" aria-current="page">Reaction time</a></li>
+        <li><a href="../stroop/">Stroop test</a></li>
+        <li><a href="../memory/">Working memory</a></li>
+        <li><a href="../patterns/">Pattern memory</a></li>
+        <li><a href="../teachers/">For teachers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page">
+
+<section id="intro" aria-labelledby="intro-heading">
+  <h1 id="intro-heading" tabindex="-1">Reaction time</h1>
+  <p class="hook">How fast is your brain?</p>
+  <div id="intro-body">
+  <div class="prose">
+    <h2>What you'll do</h2>
+    <p>A dark box will suddenly change color. As soon as it does, tap the box or press the Space bar. Try to be as fast as you can. You'll do 3 practice tries, then 10 real ones.</p>
+    <ul class="facts">
+      <li>About 5 minutes, plus 3 for a bonus round</li>
+      <li>Works with sound off</li>
+      <li>Mouse, touchscreen, or keyboard</li>
+    </ul>
+    <p class="note">This round needs you to see the screen. In the bonus round, the sound tries can be done without looking, but the sight tries cannot.</p>
+  </div>
+  <div class="btn-row">
+    <button id="start" class="btn btn-big" type="button">Start</button>
+  </div>
+  </div>
+</section>
+
+<section id="run" aria-labelledby="run-heading" hidden>
+  <div class="run-bar">
+    <h2 id="run-heading" tabindex="-1">Practice</h2>
+    <p id="run-progress" class="progress-text">Try 1 of 3</p>
+  </div>
+  <div id="paused" class="paused-box" hidden>
+    <h3 id="paused-heading" tabindex="-1">Paused</h3>
+    <p>The try you were on was thrown out, so it won't mess up your numbers. You'll get a new one when you're ready.</p>
+    <div class="btn-row">
+      <button id="resume" class="btn" type="button">Resume</button>
+      <button id="quit" class="btn btn-secondary" type="button">Start over</button>
+    </div>
+  </div>
+  <div id="stage" class="stage" aria-describedby="stage-help">
+    <svg id="cue-eye" class="stage-cue" viewBox="0 0 64 64" aria-hidden="true" hidden>
+      <path d="M4 32 C16 14 48 14 60 32 C48 50 16 50 4 32 Z" fill="none" stroke="#f3f5f8" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="32" cy="32" r="10" fill="#f3f5f8"/>
+    </svg>
+    <svg id="cue-ear" class="stage-cue" viewBox="0 0 64 64" aria-hidden="true" hidden>
+      <path d="M18 26 C18 13 27 6 36 6 C47 6 54 14 54 25 C54 36 44 39 42 47 C40 55 36 59 30 59 C24 59 21 55 20 51" fill="none" stroke="#f3f5f8" stroke-width="4" stroke-linecap="round"/>
+      <path d="M28 27 C28 20 32 16 37 16 C42 16 45 20 45 25 C45 30 40 31 38 35" fill="none" stroke="#f3f5f8" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <svg id="go-shape" class="stage-shape" viewBox="0 0 100 100" aria-hidden="true" hidden>
+      <polygon points="50,4 61.8,33.8 93.7,35.8 69,56.2 77,87.2 50,70 23,87.2 31,56.2 6.3,35.8 38.2,33.8" fill="#0f2230"/>
+    </svg>
+    <p id="stage-text">Wait for it...</p>
+    <p id="stage-sub" class="stage-sub"></p>
+  </div>
+  <p id="stage-help" class="run-help">Tap the box or press Space when it changes. Press Esc or the Pause button to pause.</p>
+  <div class="btn-row">
+    <button id="pause" class="btn btn-secondary" type="button">Pause</button>
+  </div>
+</section>
+
+<section id="results" aria-labelledby="results-heading" hidden>
+  <h2 id="results-heading" tabindex="-1">Your results</h2>
+  <ul class="stats">
+    <li class="stat"><span class="stat-label">Average</span><span class="stat-value"><span data-fill="avg">0</span> ms</span><span class="stat-help">The mean of your real tries</span></li>
+    <li class="stat"><span class="stat-label">Fastest</span><span class="stat-value"><span data-fill="fastest">0</span> ms</span><span class="stat-help">Your quickest real try</span></li>
+    <li class="stat"><span class="stat-label">Typical spread</span><span class="stat-value"><span data-fill="spread">0</span> ms</span><span class="stat-help">On average, your tries were <span data-fill="spread">0</span> ms away from your average.</span></li>
+  </ul>
+  <figure>
+    <div id="dot-plot"></div>
+    <figcaption>Each dot is one real try. The line is your average. Your times, in order: <span data-fill="times"></span>.</figcaption>
+  </figure>
+  <p id="lapse-note" hidden>Hollow dots took longer than 1.5 seconds. Something probably distracted you, so they are left out of your average.</p>
+  <div class="prose">
+    <p>Your device adds a little delay that this page can't measure. Your true reaction time is probably a bit faster than the number shown.</p>
+    <p>Many things change these numbers: sleep, practice, how focused you are, and the device you use. None of them measure how smart you are.</p>
+  </div>
+  <div class="copy-box">
+    <button class="btn btn-secondary copy-btn" type="button" data-copy="sight">Copy my results</button>
+    <span class="copy-status" role="status"></span>
+    <textarea class="copy-fallback" rows="3" readonly hidden aria-label="Your results as text. Select it and copy."></textarea>
+  </div>
+</section>
+
+<section id="explain" class="section-block" aria-labelledby="explain-heading" hidden>
+  <h2 id="explain-heading">Where did your <span data-fill="avg">0</span> milliseconds go?</h2>
+  <div class="prose">
+    <p>A millisecond (ms) is one thousandth of a second. Your average of <span data-fill="avg">0</span> ms is <span data-fill="avg-words">less than half a second</span>. But in that time, a signal made a long trip through your body.</p>
+
+    <h3>The path from your eye to your finger</h3>
+    <p>Your nervous system is made of neurons, or nerve cells. A signal travels along a neuron as a tiny electrical pulse. Where two neurons meet, there is a small gap called a synapse. Chemical messengers carry the signal across that gap. Every neuron and every synapse along the way adds a little time.</p>
+  </div>
+  <figure>
+    <svg class="diagram diagram-path" viewBox="70 14 500 370" role="img" aria-labelledby="path-title path-desc">
+      <title id="path-title">The path a signal takes from your eye to your finger</title>
+      <desc id="path-desc">A simplified side view of a person pressing a button. Numbered dots trace the path in order: 1 eye, 2 thalamus in the middle of the brain, 3 visual cortex at the back, 4 areas toward the front that decide, 5 motor cortex at the top, 6 spinal cord in the neck, 7 nerve in the arm, 8 arm and hand muscles, 9 finger. Steps 1 to 4 are blue for seeing and deciding. Steps 5 to 9 are orange for moving.</desc>
+      <defs>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2f5fd0"/></marker>
+        <marker id="arrow-orange" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#a85c00"/></marker>
+      </defs>
+      <rect x="380" y="338" width="190" height="10" rx="3" fill="#c9b9a3"/>
+      <rect x="503" y="326" width="56" height="13" rx="5" fill="#5f6b7a"/>
+      <path d="M95 384 L95 318 C95 290 118 272 150 270 L240 270 C268 272 290 286 296 312 L300 384 Z" fill="#e3e9f0" stroke="#44515f" stroke-width="2"/>
+      <path d="M262 296 L350 334 L486 322" fill="none" stroke="#44515f" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M262 296 L350 334 L486 322" fill="none" stroke="#e3e9f0" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M486 322 L530 328" fill="none" stroke="#44515f" stroke-width="13" stroke-linecap="round"/>
+      <path d="M486 322 L530 328" fill="none" stroke="#e3e9f0" stroke-width="9" stroke-linecap="round"/>
+      <path d="M145 272 C140 245 110 215 98 180 C80 130 92 70 140 42 C185 16 262 22 296 70 C308 88 312 104 312 116 L330 148 L313 157 C318 172 316 190 305 200 C293 213 270 215 252 213 L250 272 Z" fill="#e3e9f0" stroke="#44515f" stroke-width="2"/>
+      <path d="M100 118 C96 70 140 40 188 40 C238 40 272 64 272 100 C272 136 244 156 198 158 C150 160 104 152 100 118 Z" fill="#f4dde4" stroke="#9a6b7a" stroke-width="2"/>
+      <path d="M176 156 L172 212 L178 286" fill="none" stroke="#9a6b7a" stroke-width="10" stroke-linecap="round"/>
+      <path d="M268.1 105.8 L219.9 110.1" class="route route-blue" marker-end="url(#arrow-blue)"/>
+      <path d="M178 111.5 L134 110.5" class="route route-blue" marker-end="url(#arrow-blue)"/>
+      <path d="M131.2 104.4 L220.9 78.2" class="route route-blue" marker-end="url(#arrow-blue)"/>
+      <path d="M223 65.7 L183.9 52.9" class="route route-orange" marker-end="url(#arrow-orange)"/>
+      <path d="M163.7 66 L169.2 218" class="route route-orange" marker-end="url(#arrow-orange)"/>
+      <path d="M173.5 259.7 L178 285 L262 296 L279.7 303.5" class="route route-orange" marker-end="url(#arrow-orange)"/>
+      <path d="M318.3 320.1 L350 334 L398.1 329.9" class="route route-orange" marker-end="url(#arrow-orange)"/>
+      <path d="M440 328 L506 328" class="route route-orange" marker-end="url(#arrow-orange)"/>
+      <g class="mark mark-blue"><circle cx="288" cy="104" r="17"/><text x="288" y="104">1</text></g>
+      <g class="mark mark-blue"><circle cx="198" cy="112" r="17"/><text x="198" y="112">2</text></g>
+      <g class="mark mark-blue"><circle cx="112" cy="110" r="17"/><text x="112" y="110">3</text></g>
+      <g class="mark mark-blue"><circle cx="242" cy="72" r="17"/><text x="242" y="72">4</text></g>
+      <g class="mark mark-orange"><circle cx="163" cy="46" r="17"/><text x="163" y="46">5</text></g>
+      <g class="mark mark-orange"><circle cx="170" cy="240" r="17"/><text x="170" y="240">6</text></g>
+      <g class="mark mark-orange"><circle cx="300" cy="312" r="17"/><text x="300" y="312">7</text></g>
+      <g class="mark mark-orange"><circle cx="420" cy="328" r="17"/><text x="420" y="328">8</text></g>
+      <g class="mark mark-orange"><circle cx="528" cy="328" r="17"/><text x="528" y="328">9</text></g>
+    </svg>
+    <figcaption>Simplified, not to scale. Blue steps are seeing and deciding. Orange steps are moving.</figcaption>
+  </figure>
+  <div class="prose">
+    <ol class="legend">
+      <li><strong>Eye.</strong> Cells in the back of your eye, called the retina, turn light into nerve signals.</li>
+      <li><strong>Thalamus.</strong> A relay station deep in the middle of your brain passes the signal along.</li>
+      <li><strong>Visual cortex.</strong> This area at the back of your brain works out what you saw.</li>
+      <li><strong>Deciding areas.</strong> Areas toward the front of your brain decide: that's the signal, go!</li>
+      <li><strong>Motor cortex.</strong> A strip across the top of your brain sends the command to move.</li>
+      <li><strong>Spinal cord.</strong> The command travels down through your neck.</li>
+      <li><strong>Nerve.</strong> It travels out along a nerve in your arm.</li>
+      <li><strong>Muscles.</strong> Muscles in your arm and hand tighten.</li>
+      <li><strong>Finger.</strong> Your finger presses the key or the screen.</li>
+    </ol>
+
+    <h3>Where the time goes</h3>
+    <p>Scientists have measured how long some of these steps take. Here is your average split into parts.</p>
+  </div>
+  <figure>
+    <div id="split-bar"></div>
+    <figcaption>Your <span data-fill="avg">0</span> ms, split into three parts. The numbers match the list below.</figcaption>
+  </figure>
+  <div class="prose">
+    <ol class="legend">
+      <li><span class="swatch swatch-see" aria-hidden="true"></span><strong>Eye to the vision area of the brain: about 50 to 70 ms.</strong> Turning light into a nerve signal takes a chain of chemical reactions in your eye, and that is slow.</li>
+      <li><span class="swatch swatch-move" aria-hidden="true"></span><strong>Brain to hand muscles: about 20 to 25 ms.</strong> Once your brain sends the command, it reaches your hand quickly. Signals in the nerves of your arm travel about 50 to 60 meters per second. That's faster than a car on the highway.</li>
+      <li><span class="swatch swatch-rest" aria-hidden="true"></span><strong>Everything else: about <span data-fill="rest">0</span> ms.</strong> Noticing the change, deciding to press, your muscles pulling, and the key or screen moving, plus your device's delay.</li>
+    </ol>
+    <p>So the trip down your arm is only a small part of your <span data-fill="avg">0</span> ms. Most of the time is spent in your eye and your brain: seeing, noticing, and deciding. That last part is also where most of the difference between people, and between tries, comes from.</p>
+
+    <h3>Why your times bounce around</h3>
+    <p>On average, your tries were <span data-fill="spread">0</span> ms away from your average. A spread like that is normal. Your attention drifts, you blink, and your brain is a living thing, not a machine. That's why scientists repeat a measurement many times and use the average.</p>
+
+    <div class="callout">
+      <p>Want to see how a single neuron fires? <a href="https://phet.colorado.edu/en/simulations/neuron">PhET's Neuron simulation</a> shows it better than we could.</p>
+    </div>
+  </div>
+</section>
+
+<section id="twist" class="section-block" aria-labelledby="twist-heading" hidden>
+  <h2 id="twist-heading" tabindex="-1">Bonus round: sight versus sound</h2>
+  <div class="prose">
+    <p>Does your brain react faster to something you see or something you hear? This time, some tries use a short beep instead of a color change.</p>
+    <p><strong>Turn your sound on for this one.</strong></p>
+    <p class="note">Wireless (Bluetooth) headphones and speakers add a delay, often around 100 to 300 ms. That's bigger than the difference this round is trying to measure, so it can ruin the comparison. Use your device's own speakers or wired headphones.</p>
+    <p>Before each try, an eye or an ear shows which kind is coming. The tries take turns: sound, sight, sound, sight. You'll do 2 practice tries, then 12 real ones. It takes about 2 minutes.</p>
+  </div>
+  <div class="btn-row">
+    <button id="test-sound" class="btn btn-secondary" type="button">Test the sound</button>
+    <button id="start-twist" class="btn" type="button">Start the bonus round</button>
+    <button id="skip-twist" class="btn btn-secondary" type="button">Skip, my sound is off</button>
+  </div>
+  <p id="no-audio" class="note" hidden>This browser can't play sounds from a web page, so the bonus round can't run here. You can still read about it below.</p>
+</section>
+
+<section id="twist-results" class="section-block" aria-labelledby="twist-results-heading" hidden>
+  <h2 id="twist-results-heading" tabindex="-1">Sight versus sound</h2>
+  <div data-outcome="skipped" class="prose">
+    <p>You skipped the sound round, so here are typical numbers from a study instead. <strong>These are not your numbers.</strong></p>
+    <p>In one small study of 14 adults using a laptop, the average reaction time was about 331 ms to a light and about 284 ms to a sound. A larger study of 120 students also found that people reacted faster to a sound than to a light.</p>
+  </div>
+  <figure>
+    <div id="sense-bars"></div>
+    <figcaption data-outcome="skipped">Typical averages from a study (Shelton and Kumar, 2010), not yours.</figcaption>
+    <figcaption data-outcome="measured">Your averages. Each is from 6 real tries.</figcaption>
+  </figure>
+  <div class="prose">
+    <p data-outcome="sound-faster"><strong>Your brain reacted to the sound <span data-fill="diff">0</span> ms faster than to the light.</strong> That's what scientists usually find. Here's why.</p>
+    <p data-outcome="same"><strong>Your sight and sound times were almost the same</strong> (less than 10 ms apart). Scientists usually find sound a bit faster. Below is why, and why it might not have shown up for you.</p>
+    <p data-outcome="sight-faster"><strong>Your sight time was <span data-fill="diff">0</span> ms faster than your sound time.</strong> That's the opposite of what scientists usually find. That's OK, and it's a real lesson. Below is why sound is usually faster, and what might have happened.</p>
+    <div data-outcome="not-faster">
+      <h3>Why the difference might not have shown up</h3>
+      <ul>
+        <li><strong>Speaker delay.</strong> Speakers and headphones, especially wireless ones, can add more delay than the difference you're trying to measure.</li>
+        <li><strong>Too few tries.</strong> Six tries of each kind isn't many. One slow try can change an average a lot.</li>
+        <li><strong>Attention.</strong> If you were watching the screen closely, sight tries may have gotten an extra boost.</li>
+      </ul>
+      <p>This is a real lesson in why scientists use careful equipment and many trials. Want to test it again? Try the bonus round once more with your device's own speakers.</p>
+    </div>
+    <p id="rough-audio" class="note" hidden>This browser doesn't report its sound delay, so the sound times on this device are rough.</p>
+  </div>
+  <div class="copy-box" data-outcome="measured">
+    <button class="btn btn-secondary copy-btn" type="button" data-copy="senses">Copy my results</button>
+    <span class="copy-status" role="status"></span>
+    <textarea class="copy-fallback" rows="3" readonly hidden aria-label="Your results as text. Select it and copy."></textarea>
+  </div>
+
+  <div class="prose">
+    <h3>Why sound is usually faster</h3>
+    <p>You might guess the hearing path is shorter. It isn't. On the way to the brain's hearing area, a sound signal passes through more relay stations (about four or five) than a light signal does on the way to the vision area (one, in the thalamus). The big difference happens at the very start, in how each sense turns the world into a nerve signal.</p>
+    <p><strong>In your ear,</strong> sound waves bend tiny hair-like bundles on cells called hair cells. The bending pulls open little channels in the cell directly, so a signal starts almost instantly, in as little as 10 millionths of a second.</p>
+    <p><strong>In your eye,</strong> light hits cells called rods and cones. Before any nerve signal exists, the light has to set off a chain of chemical reactions inside those cells. That chain is slow by comparison.</p>
+    <p>So sound signals reach the brain's hearing area in less than about 30 ms. Light signals take about 50 to 70 ms to reach the vision area. Sound gets a head start.</p>
+  </div>
+  <figure>
+    <svg class="diagram diagram-race" viewBox="0 0 400 170" role="img" aria-labelledby="race-title race-desc">
+      <title id="race-title">Sound reaches the cortex before light does</title>
+      <desc id="race-desc">A timeline from 0 to 100 milliseconds. The sound bar ends before 30 milliseconds, when signals reach the hearing area of the cortex. The light bar is solid to 50 milliseconds and lighter from 50 to 70 milliseconds, when signals reach the vision area of the cortex.</desc>
+      <text x="8" y="40" class="race-label">Sound</text>
+      <rect x="70" y="24" width="90" height="26" rx="4" fill="#a85c00"/>
+      <text x="168" y="42" class="race-note">under 30 ms</text>
+      <text x="8" y="100" class="race-label">Light</text>
+      <rect x="70" y="84" width="150" height="26" rx="4" fill="#2f5fd0"/>
+      <rect x="220" y="84" width="60" height="26" fill="#2f5fd0" opacity="0.45"/>
+      <text x="288" y="102" class="race-note">50 to 70 ms</text>
+      <line x1="70" y1="130" x2="370" y2="130" stroke="#44515f" stroke-width="2"/>
+      <line x1="70" y1="125" x2="70" y2="135" stroke="#44515f" stroke-width="2"/>
+      <line x1="220" y1="125" x2="220" y2="135" stroke="#44515f" stroke-width="2"/>
+      <line x1="370" y1="125" x2="370" y2="135" stroke="#44515f" stroke-width="2"/>
+      <text x="70" y="156" class="race-tick">0</text>
+      <text x="220" y="156" class="race-tick">50</text>
+      <text x="370" y="156" class="race-tick">100 ms</text>
+    </svg>
+    <figcaption>When signals first reach the brain's hearing and vision areas. Approximate, from brain recordings.</figcaption>
+  </figure>
+</section>
+
+<section id="talk" class="section-block" aria-labelledby="talk-heading" hidden>
+  <h2 id="talk-heading">Talk about it</h2>
+  <ol class="questions prose">
+    <li>Why might races start with a sound instead of a light?</li>
+    <li>Did your times get faster as you went? Why might that happen?</li>
+    <li>What else might change your reaction time? How could you test that fairly?</li>
+  </ol>
+</section>
+
+<section id="deeper" class="section-block" aria-labelledby="deeper-heading" hidden>
+  <h2 id="deeper-heading">Go deeper</h2>
+  <div class="prose">
+    <details>
+      <summary>Why do sprinters get disqualified for being too fast?</summary>
+      <p>In top track races, sensors in the starting blocks measure how quickly each runner reacts to the starting gun. If a runner reacts in less than 0.1 seconds (100 ms), it counts as a false start. The idea is that people can't react to a sound that fast, so the runner must have guessed. Some studies suggest a few top sprinters can sometimes react a little faster than that, so the rule is still argued about.</p>
+      <p>This page uses the same idea. A press less than 100 ms after the change counts as a guess, and you get a new try.</p>
+    </details>
+    <details>
+      <summary>Why can't a web page measure this perfectly?</summary>
+      <p>Screens, keyboards, touchscreens, speakers, and web browsers all add small delays. Scientists have tested this using robots that press keys at exact times. They found that the delay depends on the device and the browser. That's why your true reaction time is probably a bit faster than the number shown. If you want to compare two things fairly, use the same device for both.</p>
+    </details>
+    <details>
+      <summary>How does this page time you?</summary>
+      <p>The page records the moment your finger touches down or the key goes down, not when you let go. It also waits for the screen to actually show the change before it starts the clock. That makes the timing as fair as a web page can make it.</p>
+    </details>
+    <details>
+      <summary>How fast do nerve signals travel?</summary>
+      <p>It depends on the nerve. Many nerve fibers are wrapped in a fatty coating called myelin, which helps signals jump along faster. In the nerves of your arm, signals travel about 50 to 60 meters per second. Even so, every synapse along the way adds a little delay, and the brain needs time to make sense of what it sees.</p>
+    </details>
+  </div>
+  <h3>Keep exploring</h3>
+  <div class="btn-row">
+    <button id="again" class="btn" type="button">Try it again</button>
+    <a class="btn btn-secondary" href="../stroop/">Next experiment: Stroop test</a>
+  </div>
+  <ul class="link-list prose">
+    <li><a href="https://phet.colorado.edu/en/simulations/neuron">PhET Neuron simulation</a>: watch a single neuron fire and see how signals move along it.</li>
+    <li><a href="https://www.brainfacts.org/">BrainFacts.org</a>: articles about the brain and nervous system from the Society for Neuroscience.</li>
+  </ul>
+</section>
+
+<div id="status" class="visually-hidden" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="page">
+    <p><a href="../about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="../privacy/">Privacy</a></p>
+    <p>No accounts. No tracking. Nothing you do here leaves your device.</p>
+  </div>
+</footer>
+</body>
+</html>
