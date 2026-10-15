@@ -131,6 +131,16 @@ Checked: 2026-10-15 unless noted.
 - **Contrast ratios:** see "Stroop colors" under Design checks below.
 - **Status:** Confirmed.
 
+### S-7. Mistakes are also a sign of interference
+- **Site says:** More mistakes when the word and ink disagree is another sign of the fight: sometimes the word wins.
+- **Source:** MacLeod, C. M. (1991). Half a century of research on the Stroop effect: An integrative review. *Psychological Bulletin*, 109(2), 163-203. https://doi.org/10.1037/0033-2909.109.2.163 . Interference appears in errors as well as in response times.
+- **Status:** Confirmed (well-established; shown only when the student's own data has more mismatching mistakes).
+
+### S-8. Reading is automatic for practiced readers; naming colors is slower
+- **Site says:** For someone who reads a lot, reading is automatic and happens whether you want it to or not. Naming a color is practiced much less, so it is slower and takes more effort. Practice is what makes reading automatic.
+- **Source:** MacLeod (1991), above, which reviews the "relative speed of processing" and "automaticity" accounts of the Stroop effect; Stroop (1935) himself attributed the effect to practice in reading.
+- **Status:** Confirmed as the standard textbook account.
+
 ---
 
 ## Working memory and chunking (`memory/`)
@@ -235,4 +245,13 @@ Checked: 2026-10-15 unless noted.
 ## Design checks
 
 ### Stroop colors
-(Filled in when the Stroop page is built.)
+Computed with `node dev/contrast.mjs` (WCAG 2.1 relative luminance). Stimulus panel background `#1c2230`. The stimulus words are large bold text (about 42 to 72 px), where AA needs 3:1, but all four clear the 4.5:1 normal-text bar too.
+
+| Color word | Ink | Contrast on #1c2230 |
+|---|---|---|
+| ORANGE | #e69f00 | 7.06 |
+| BLUE | #56b4e9 | 6.89 |
+| GREEN | #009e73 | 4.65 |
+| PINK | #cc79a7 | 5.19 |
+
+Other pairs (same script): body text 14.9, muted text 7.4, links 8.6, white on primary button 6.1, stage text 14.6, "NOW!" on the go color 10.4, white numbers on the diagram's blue and orange markers 5.7 and 5.0.

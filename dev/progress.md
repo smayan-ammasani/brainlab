@@ -4,8 +4,8 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 
 ## Milestones
 
-- [ ] 1. Reaction time, Round 1 (sight)
-- [ ] 2. Reaction time, Round 2 (sight vs. sound)
+- [x] 1. Reaction time, Round 1 (sight). Run-through passes: keyboard, mouse, touch, 360 px, 200% zoom, tab switch, Esc pause, too-soon redo, copy and copy fallback, axe clean, 56.6 KB.
+- [x] 2. Reaction time, Round 2 (sight vs. sound). Sound round, skip path, outcome messages, rough-audio note.
 - [ ] 3. Stroop test (color and numbers versions)
 - [ ] 4. Working memory and chunking
 - [ ] 5. Pattern memory and expertise
@@ -14,7 +14,7 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 
 ## Next up
 
-Milestone 1.
+Milestone 3 (Stroop). First move shared pieces (random, stats, charts, page helpers, frame-timed onset) from the reaction time files into `js/lib/`.
 
 ## How to run things
 

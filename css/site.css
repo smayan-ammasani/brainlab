@@ -11,7 +11,7 @@
   --accent-soft: #e2f1f0;
   --warm-soft: #fdf3e3;
   --focus: #1a56db;
-  --stage: #283040;
+  --stage: #1c2230;
   --stage-text: #f3f5f8;
   --go: #8fd8ff;
   --go-text: #0f2230;
@@ -602,6 +602,151 @@ figcaption {
 .race-tick {
   font-size: 14px;
   text-anchor: middle;
+}
+
+/* Stroop test. Ink colors are from the Okabe-Ito palette; see dev/sources.md S-6 for contrast. */
+
+.ink-0 { color: #e69f00; fill: #e69f00; }
+.ink-1 { color: #56b4e9; fill: #56b4e9; }
+.ink-2 { color: #009e73; fill: #009e73; }
+.ink-3 { color: #cc79a7; fill: #cc79a7; }
+
+.version-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.version-box p {
+  margin: 0;
+  flex: 1 1 18rem;
+}
+
+.warmup {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem 0.5rem;
+  max-width: 42rem;
+  padding: 1rem;
+  margin: 0.5rem 0 1.25rem;
+  border-radius: var(--radius);
+  background: var(--stage);
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(0.95rem, 4vw, 1.5rem);
+  letter-spacing: 0.02em;
+}
+
+.warmup-digits span {
+  color: var(--stage-text);
+  border: 1px solid #4a5468;
+  border-radius: 8px;
+  padding: 0.2rem 0;
+}
+
+.stage-stroop {
+  cursor: default;
+}
+
+.stimulus {
+  font-size: clamp(2.6rem, 12vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  min-height: 1.3em;
+}
+
+.stimulus.fixation {
+  color: #9aa4b5;
+}
+
+.stimulus.message {
+  font-size: clamp(1.4rem, 5.5vw, 2rem);
+  color: var(--stage-text);
+}
+
+.answer-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+
+.answer {
+  font: inherit;
+  font-weight: 800;
+  font-size: 1.15rem;
+  min-height: 72px;
+  padding: 0.4rem 0.3rem;
+  border: 2px solid #44515f;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+}
+
+.answer:hover {
+  background: var(--accent-soft);
+}
+
+.answer .key {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+@media (max-width: 420px) {
+  .answer-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.diagram-fight {
+  max-width: 26rem;
+}
+
+.flow {
+  fill: none;
+  stroke: #44515f;
+  stroke-width: 2.5;
+}
+
+.box-auto { fill: #e8eefb; stroke: #2f5fd0; stroke-width: 2; }
+.box-slow { fill: #fbf0e3; stroke: #a85c00; stroke-width: 2; }
+.box-brain { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+
+.box-title,
+.box-text,
+.fight-stim {
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.box-title {
+  font-size: 16px;
+  font-weight: 700;
+  fill: var(--text);
+}
+
+.box-text {
+  font-size: 14px;
+  fill: var(--text);
+}
+
+.fight-stim {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.fight-digits {
+  fill: #f3f5f8;
 }
 
 /* Explanations and the rest of the page */

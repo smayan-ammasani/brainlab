@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Stroop Test | [Site Name]</title>
+<meta name="description" content="Try to name the ink color while the word spells a different color, measure the extra time your brain needs, and learn why.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+<script type="module" src="../js/stroop.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="site-name" href="../">[Site Name]</a>
+    <nav aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../reaction-time/">Reaction time</a></li>
+        <li><a href="../stroop/" aria-current="page">Stroop test</a></li>
+        <li><a href="../memory/">Working memory</a></li>
+        <li><a href="../patterns/">Pattern memory</a></li>
+        <li><a href="../teachers/">For teachers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page">
+
+<section id="intro" aria-labelledby="intro-heading">
+  <h1 id="intro-heading" tabindex="-1">Stroop test</h1>
+  <p class="hook">Can you stop yourself from reading?</p>
+  <div id="intro-body">
+    <div class="callout version-box">
+      <p data-v="colors">Prefer numbers? Some people find the colors hard to tell apart. The numbers version works the same way.</p>
+      <p data-v="numbers" hidden>You're using the numbers version. It works the same way as the colors version.</p>
+      <button id="switch-version" class="btn btn-secondary" type="button">Try the numbers version</button>
+    </div>
+
+    <div class="prose">
+      <h2>Warm-up: say it out loud</h2>
+      <p data-v="colors">Say the <strong>ink color</strong> of each word out loud, as fast as you can. Not the word. The color. (Whispering works too.)</p>
+      <p data-v="numbers" hidden>Say <strong>how many digits</strong> are in each box out loud, as fast as you can. Not the digit. How many. (Whispering works too.)</p>
+    </div>
+    <div class="warmup" data-v="colors" role="img" aria-label="A grid of 20 color words. Each word is printed in a different ink color than the color it names.">
+      <span class="ink-1">ORANGE</span><span class="ink-2">PINK</span><span class="ink-0">BLUE</span><span class="ink-3">GREEN</span>
+      <span class="ink-0">GREEN</span><span class="ink-1">PINK</span><span class="ink-2">BLUE</span><span class="ink-3">ORANGE</span>
+      <span class="ink-0">PINK</span><span class="ink-2">ORANGE</span><span class="ink-1">GREEN</span><span class="ink-3">BLUE</span>
+      <span class="ink-1">ORANGE</span><span class="ink-0">BLUE</span><span class="ink-2">PINK</span><span class="ink-3">GREEN</span>
+      <span class="ink-1">GREEN</span><span class="ink-0">PINK</span><span class="ink-3">BLUE</span><span class="ink-2">ORANGE</span>
+    </div>
+    <div class="warmup warmup-digits" data-v="numbers" role="img" aria-label="A grid of 20 boxes of digits. In each box, the digit shown is different from how many digits there are." hidden>
+      <span>3 3</span><span>1 1 1</span><span>4</span><span>2 2 2 2</span>
+      <span>4 4 4</span><span>2</span><span>3 3 3 3</span><span>1 1</span>
+      <span>2 2 2</span><span>4 4</span><span>1 1 1 1</span><span>3</span>
+      <span>3</span><span>2 2 2 2</span><span>4 4</span><span>1 1 1</span>
+      <span>4 4 4</span><span>3 3</span><span>2</span><span>1 1 1 1</span>
+    </div>
+    <div class="prose">
+      <p>Did you feel your brain fighting you? Now let's measure it.</p>
+
+      <h2>What you'll do</h2>
+      <p data-v="colors">A word will appear in colored ink. Press the button for the <strong>ink color</strong>, not the word. You can also use the keys 1, 2, 3, and 4. Some words match their ink and some don't. You'll do 8 practice tries, then 40 real ones.</p>
+      <p data-v="numbers" hidden>A row of digits will appear. Press the button for <strong>how many digits</strong> there are, not the digit itself. You can also use the keys 1, 2, 3, and 4. Sometimes the digit and the count match, and sometimes they don't. You'll do 8 practice tries, then 40 real ones.</p>
+      <ul class="facts">
+        <li>About 5 minutes</li>
+        <li>Works with sound off</li>
+        <li>Mouse, touchscreen, or keyboard</li>
+      </ul>
+      <p class="note">This test needs you to see the screen. It doesn't work without seeing the words or digits.</p>
+    </div>
+    <div class="btn-row">
+      <button id="start" class="btn btn-big" type="button">Start</button>
+    </div>
+  </div>
+</section>
+
+<section id="run" aria-labelledby="run-heading" hidden>
+  <div class="run-bar">
+    <h2 id="run-heading" tabindex="-1">Practice</h2>
+    <p id="run-progress" class="progress-text">Practice try 1 of 8</p>
+  </div>
+  <div id="paused" class="paused-box" hidden>
+    <h3 id="paused-heading" tabindex="-1">Paused</h3>
+    <p>The try you were on was thrown out, so it won't mess up your numbers. You'll get a new one when you're ready.</p>
+    <div class="btn-row">
+      <button id="resume" class="btn" type="button">Resume</button>
+      <button id="quit" class="btn btn-secondary" type="button">Start over</button>
+    </div>
+  </div>
+  <div id="stage" class="stage stage-stroop">
+    <p id="stimulus" class="stimulus"></p>
+    <p id="stage-sub" class="stage-sub"></p>
+  </div>
+  <div class="answer-row" role="group" aria-label="Answers">
+    <button class="answer" type="button" data-answer="0"><span class="key">key 1</span><span data-v="colors">ORANGE</span><span data-v="numbers" hidden>1</span></button>
+    <button class="answer" type="button" data-answer="1"><span class="key">key 2</span><span data-v="colors">BLUE</span><span data-v="numbers" hidden>2</span></button>
+    <button class="answer" type="button" data-answer="2"><span class="key">key 3</span><span data-v="colors">GREEN</span><span data-v="numbers" hidden>3</span></button>
+    <button class="answer" type="button" data-answer="3"><span class="key">key 4</span><span data-v="colors">PINK</span><span data-v="numbers" hidden>4</span></button>
+  </div>
+  <p class="run-help" data-v="colors">Press the ink color, not the word. Press Esc or the Pause button to pause.</p>
+  <p class="run-help" data-v="numbers" hidden>Press how many digits there are. Press Esc or the Pause button to pause.</p>
+  <div class="btn-row">
+    <button id="pause" class="btn btn-secondary" type="button">Pause</button>
+  </div>
+</section>
+
+<section id="results" aria-labelledby="results-heading" hidden>
+  <h2 id="results-heading" tabindex="-1">Your results</h2>
+  <ul class="stats">
+    <li class="stat"><span class="stat-label">Matching tries</span><span class="stat-value"><span data-fill="match">0</span></span><span class="stat-help" data-v="colors">Average when the word and ink agreed</span><span class="stat-help" data-v="numbers" hidden>Average when the digit and count agreed</span></li>
+    <li class="stat"><span class="stat-label">Mismatching tries</span><span class="stat-value"><span data-fill="mismatch">0</span></span><span class="stat-help" data-v="colors">Average when the word and ink fought</span><span class="stat-help" data-v="numbers" hidden>Average when the digit and count fought</span></li>
+    <li class="stat"><span class="stat-label">Stroop effect</span><span class="stat-value"><span data-fill="effect">0</span></span><span class="stat-help">Mismatching minus matching</span></li>
+  </ul>
+  <figure>
+    <div id="stroop-bars"></div>
+    <figcaption>Average time for correct tries. Each bar is from up to 20 tries.</figcaption>
+  </figure>
+  <div class="prose">
+    <p data-outcome="effect"><strong>Your brain needed an extra <span data-fill="effect-num">0</span> ms when <span data-v="colors">the word and the color</span><span data-v="numbers" hidden>the digit and the count</span> fought each other.</strong> Scientists call that extra time the Stroop effect. Read on to find out where it comes from.</p>
+    <p data-outcome="same"><strong>Your matching and mismatching times were almost the same</strong> (less than 20 ms apart). Most people are slower when the two fight. That's OK. Below you'll find out why the fight usually costs time, and why it might not have shown up for you.</p>
+    <p data-outcome="reversed"><strong>Your mismatching tries were <span data-fill="effect-num">0</span> ms faster than your matching tries.</strong> That's the opposite of what scientists usually find. That's OK, and it's interesting. Below you'll find out why most people are slower, and what might have happened.</p>
+    <p data-outcome="none"><strong>There weren't enough correct answers of both kinds to compare.</strong> Try again, and take your time. Getting it right matters more than going fast.</p>
+    <p>Mistakes: <span data-fill="match-mistakes">0</span> on matching tries and <span data-fill="mismatch-mistakes">0</span> on mismatching tries.<span id="mistake-note" hidden> More mistakes when the two disagree is another sign of the fight: sometimes the word wins.</span></p>
+    <div data-outcome="no-effect">
+      <h3>Why the effect might not have shown up</h3>
+      <ul>
+        <li><strong>Twenty tries of each kind isn't many.</strong> A few slow or fast tries can change an average a lot.</li>
+        <li><strong>Buttons make the effect smaller.</strong> Studies find a bigger Stroop effect when people say the answer out loud than when they press buttons.</li>
+        <li><strong>Some people find tricks.</strong> If you found a way to not read the word, your brain had less fighting to do. What did you try?</li>
+      </ul>
+      <p>Want to see if it shows up next time? Try it again.</p>
+    </div>
+    <p>Both kinds of tries went through the same device, so your device's delay mostly cancels out in the difference. Many things change these numbers, like sleep, practice, and focus. None of them measure how smart you are.</p>
+  </div>
+  <div class="copy-box">
+    <button class="btn btn-secondary copy-btn" type="button">Copy my results</button>
+    <span class="copy-status" role="status"></span>
+    <textarea class="copy-fallback" rows="3" readonly hidden aria-label="Your results as text. Select it and copy."></textarea>
+  </div>
+</section>
+
+<section id="explain" class="section-block" aria-labelledby="explain-heading" hidden>
+  <h2 id="explain-heading">What just happened in your brain?</h2>
+  <div class="prose">
+    <h3>Reading runs on autopilot</h3>
+    <p>For someone who reads a lot, reading is automatic. Automatic means it happens without you deciding to do it. Look at a word, and your brain reads it, whether you want it to or not. Try looking at this word without reading it: <strong>pizza</strong>. You can't!</p>
+    <p data-v="colors">Naming a color is different. You don't practice it nearly as much as reading, so it's slower and takes more effort.</p>
+    <p data-v="numbers" hidden>Counting is different. Reading a digit is automatic, but counting takes effort, even for small numbers.</p>
+
+    <h3>Your brain had to referee a fight</h3>
+    <p data-v="colors">On mismatching tries, two answers showed up in your brain at once: the word you read and the color you saw. To answer correctly, your brain had to do two jobs. First, notice that the answers disagreed. Second, push the ink color forward and hold the word back.</p>
+    <p data-v="numbers" hidden>On mismatching tries, two answers showed up in your brain at once: the digit you read and the count you made. To answer correctly, your brain had to do two jobs. First, notice that the answers disagreed. Second, push the count forward and hold the digit back.</p>
+  </div>
+  <figure>
+    <svg class="diagram diagram-fight" viewBox="0 0 360 352" role="img" aria-labelledby="fight-title fight-desc">
+      <title id="fight-title">How your brain settles the fight</title>
+      <desc id="fight-desc">A flow chart. At the top, a mismatching try. Two arrows lead down: on the left, reading, which is fast and automatic, gives the wrong answer. On the right, the slower path gives the right answer. Both feed into a box: notice the conflict, linked to the anterior cingulate cortex. That leads to a box: boost the right answer, linked to the prefrontal cortex. That leads to the correct answer, which comes out a little later.</desc>
+      <defs>
+        <marker id="arrow-dark" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#44515f"/></marker>
+      </defs>
+      <rect x="110" y="6" width="140" height="44" rx="8" fill="#1c2230"/>
+      <text x="180" y="29" class="fight-stim ink-0" data-v="colors">BLUE</text>
+      <text x="180" y="29" class="fight-stim fight-digits" data-v="numbers" hidden>4 4</text>
+      <path d="M140 52 L84 92" class="flow" marker-end="url(#arrow-dark)"/>
+      <path d="M220 52 L276 92" class="flow" marker-end="url(#arrow-dark)"/>
+      <rect x="8" y="96" width="160" height="58" rx="8" class="box-auto"/>
+      <text x="88" y="118" class="box-title">Reading</text>
+      <text x="88" y="140" class="box-text">fast, automatic</text>
+      <rect x="192" y="96" width="160" height="58" rx="8" class="box-slow"/>
+      <text x="272" y="118" class="box-title" data-v="colors">Seeing the ink</text>
+      <text x="272" y="118" class="box-title" data-v="numbers" hidden>Counting</text>
+      <text x="272" y="140" class="box-text">slower, takes effort</text>
+      <path d="M88 156 L160 190" class="flow" marker-end="url(#arrow-dark)"/>
+      <path d="M272 156 L200 190" class="flow" marker-end="url(#arrow-dark)"/>
+      <rect x="40" y="194" width="280" height="44" rx="8" class="box-brain"/>
+      <text x="180" y="221" class="box-title">1. Notice the conflict</text>
+      <path d="M180 240 L180 256" class="flow" marker-end="url(#arrow-dark)"/>
+      <rect x="40" y="260" width="280" height="44" rx="8" class="box-brain"/>
+      <text x="180" y="287" class="box-title">2. Boost the right answer</text>
+      <path d="M180 306 L180 322" class="flow" marker-end="url(#arrow-dark)"/>
+      <text x="180" y="340" class="box-text">Right answer, a little later</text>
+    </svg>
+    <figcaption>Simplified. Two answers race, and your brain has to step in.</figcaption>
+  </figure>
+  <div class="prose">
+    <p>Researchers link the first job, noticing the conflict, to an area called the <strong>anterior cingulate cortex</strong> (an-TEER-ee-ur SING-gyoo-lit). It sits deep in the middle of your brain, toward the front. They link the second job, boosting the right answer, to the <strong>prefrontal cortex</strong>, the part of your brain right behind your forehead. This is one leading idea about how it works, and scientists are still testing it.</p>
+    <p>That refereeing takes time. <span data-outcome="effect">It's the extra <span data-fill="effect-num">0</span> ms you just measured.</span><span data-outcome="no-effect">For most people it shows up as extra time, even though it didn't show up clearly for you this time.</span> Extra time here doesn't mean anything is wrong. It means your brain was doing extra work.</p>
+
+    <h3>Why practice matters</h3>
+    <p>You weren't born reading automatically. Years of practice made it that way. Skills that you practice thousands of times start to run on their own. That's useful most of the time, and it's also why they're hard to stop. The other experiments on this site look at what practice does to memory.</p>
+  </div>
+</section>
+
+<section id="talk" class="section-block" aria-labelledby="talk-heading" hidden>
+  <h2 id="talk-heading">Talk about it</h2>
+  <ol class="questions prose">
+    <li>What else do you do automatically that would be hard to stop?</li>
+    <li>Would someone who is just learning to read show a bigger or smaller Stroop effect? Why?</li>
+    <li>Why do you think the answer buttons show words instead of colored squares?</li>
+  </ol>
+</section>
+
+<section id="deeper" class="section-block" aria-labelledby="deeper-heading" hidden>
+  <h2 id="deeper-heading">Go deeper</h2>
+  <div class="prose">
+    <details>
+      <summary>Who discovered this?</summary>
+      <p>A psychologist named John Ridley Stroop published this experiment in 1935. In his version, people looked at a card printed with 100 color words and named the ink colors out loud, and he timed how long the whole card took. Scientists have used his test in thousands of studies since then.</p>
+    </details>
+    <details>
+      <summary>Is your brain's control system done growing?</summary>
+      <p>Not yet. The prefrontal cortex, which helps with control like this, keeps developing through the teen years and into early adulthood. That doesn't mean teens can't control themselves. It means this part of the brain is still being shaped by what you practice.</p>
+    </details>
+    <details>
+      <summary>Why the buttons show words</summary>
+      <p>If the buttons were colored squares, you could just match color to color and the word wouldn't get in your way as much. Word buttons make your brain turn the ink color into a word, and that's where reading gets in the way. Scientists choose details like this carefully, because small changes can change the result.</p>
+    </details>
+    <details>
+      <summary>Talking versus pressing buttons</summary>
+      <p>The Stroop effect is usually bigger when people say the color out loud than when they press buttons. That's one reason the warm-up felt harder than the buttons. If you want a bigger effect, try the warm-up again and have a partner time you.</p>
+    </details>
+  </div>
+  <h3>Keep exploring</h3>
+  <div class="btn-row">
+    <button id="again" class="btn" type="button">Try it again</button>
+    <a class="btn btn-secondary" href="../memory/">Next experiment: Working memory</a>
+  </div>
+  <ul class="link-list prose">
+    <li><a href="https://psychclassics.yorku.ca/Stroop/">Stroop's original 1935 paper</a>: the real study, hosted by York University. It's written for scientists, so it's a challenge.</li>
+    <li><a href="https://www.brainfacts.org/">BrainFacts.org</a>: articles about the brain and nervous system from the Society for Neuroscience.</li>
+  </ul>
+</section>
+
+<div id="status" class="visually-hidden" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="page">
+    <p><a href="../about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="../privacy/">Privacy</a></p>
+    <p>No accounts. No tracking. Nothing you do here leaves your device.</p>
+  </div>
+</footer>
+</body>
+</html>
