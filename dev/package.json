@@ -1,0 +1,14 @@
+{
+  "name": "site-dev-tools",
+  "private": true,
+  "type": "module",
+  "description": "Dev-only tools for testing the site. Nothing here is loaded by any page.",
+  "scripts": {
+    "test": "node run-tests.mjs",
+    "e2e": "node e2e.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.0",
+    "puppeteer-core": "^24.43.1"
+  }
+}
