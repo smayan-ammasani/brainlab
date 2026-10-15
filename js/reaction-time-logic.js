@@ -1,30 +1,8 @@
 // Pure logic for the reaction time experiment. No DOM access, so it can be tested.
 
-// Small seeded random number generator (mulberry32). Returns a function that
-// gives numbers in [0, 1). The same seed always gives the same sequence.
-export function mulberry32(seed) {
-  let a = seed >>> 0;
-  return function () {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+import { mean, meanAbsDev } from './lib/stats.js';
+import { GUESS_MS } from './lib/timing.js';
 
-export function mean(values) {
-  if (values.length === 0) return NaN;
-  return values.reduce((sum, v) => sum + v, 0) / values.length;
-}
-
-// Mean absolute deviation: the average distance of each value from the mean.
-export function meanAbsDev(values) {
-  const m = mean(values);
-  return mean(values.map((v) => Math.abs(v - m)));
-}
-
-export const GUESS_MS = 100; // faster than this counts as a guess
 export const LAPSE_MS = 1500; // slower than this is shown but left out of the average
 export const WAIT_MIN_MS = 1500;
 export const WAIT_MAX_MS = 4000;

@@ -5,12 +5,15 @@
 // AudioContext clock mapped onto the same performance.now() timeline.
 
 import {
-  mulberry32, randomWait, classifyResponse, summarize, pathwaySegments, audioTimeToPerf,
+  randomWait, classifyResponse, summarize, pathwaySegments, audioTimeToPerf,
   alternatingKinds, compareSenses, sightSummaryText, senseSummaryText, axisFor,
 } from './reaction-time-logic.js';
+import { mulberry32, seedFromClock } from './lib/random.js';
+import { $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden } from './lib/page.js';
+import { showOnNextFrame } from './lib/timing.js';
+import { svgEl, newChart, drawBars } from './lib/charts.js';
 
-const $ = (id) => document.getElementById(id);
-const rng = mulberry32((Date.now() ^ Math.floor(performance.now() * 1000)) >>> 0);
+const rng = mulberry32(seedFromClock());
 
 const SIGHT_PRACTICE = 3;
 const SIGHT_TRIALS = 10;
@@ -24,33 +27,18 @@ const TYPICAL = { sight: 331, sound: 284 }; // Shelton and Kumar (2010), see dev
 
 const SECTIONS = ['intro-body', 'run', 'results', 'explain', 'twist', 'twist-results', 'talk', 'deeper'];
 const stage = $('stage');
-const statusRegion = $('status');
 
 let block = null; // the current run of tries: { kinds, index, practice, results, onDone, showCue }
 let trial = null; // the current try: { kind, onset, toneAt, tone }
 let timer = 0;
 let hintTimer = 0;
-let frame = 0;
+let cancelFrame = () => {};
 let paused = false;
 let audio = null;
 let sightSummary = null;
 let senses = null; // { sight, sound } summaries from the bonus round
 
-// ---------- Page helpers ----------
-
-function showOnly(ids) {
-  for (const id of SECTIONS) $(id).hidden = !ids.includes(id);
-}
-
-function announce(text) {
-  // Clear first so the same message is read again if it repeats.
-  statusRegion.textContent = '';
-  setTimeout(() => { statusRegion.textContent = text; }, 50);
-}
-
-function fill(name, value) {
-  for (const el of document.querySelectorAll(`[data-fill="${name}"]`)) el.textContent = value;
-}
+const showOnly = (ids) => showSections(SECTIONS, ids);
 
 function setStage({ go = false, text = '', sub = '', cue = null }) {
   stage.classList.toggle('go', go);
@@ -146,13 +134,10 @@ function startTrial() {
   const wait = randomWait(rng);
   if (kind === 'sight') {
     timer = setTimeout(() => {
-      // Change the screen inside an animation frame...
-      frame = requestAnimationFrame(() => {
-        setStage({ go: true, text: 'NOW!' });
-        // ...then take the next frame's timestamp as the onset. That is the
-        // closest a web page can get to the moment the change reached the screen.
-        frame = requestAnimationFrame((t) => { if (trial) trial.onset = t; });
-      });
+      cancelFrame = showOnNextFrame(
+        () => setStage({ go: true, text: 'NOW!' }),
+        (t) => { if (trial) trial.onset = t; },
+      );
     }, wait);
   } else {
     // The screen does not change for a sound try, so only the beep can be the signal.
@@ -167,7 +152,7 @@ function startTrial() {
 function cancelTimers() {
   clearTimeout(timer);
   clearTimeout(hintTimer);
-  cancelAnimationFrame(frame);
+  cancelFrame();
   if (trial && trial.tone) silence(trial.tone);
 }
 
@@ -238,8 +223,7 @@ function reset() {
   stage.hidden = false;
   $('paused').hidden = true;
   $('pause').hidden = false;
-  for (const el of document.querySelectorAll('.copy-status')) el.textContent = '';
-  for (const el of document.querySelectorAll('.copy-fallback')) el.hidden = true;
+  clearCopyBoxes();
   showOnly(['intro-body']);
   $('intro-heading').focus();
 }
@@ -339,25 +323,7 @@ function showTwistResults(measured) {
   announce(measured ? 'Done! Here are your sight and sound results.' : 'Here are typical results.');
 }
 
-// ---------- Charts (hand-built SVG, drawn at the container's real width) ----------
-
-const SVG_NS = 'http://www.w3.org/2000/svg';
-
-function svgEl(name, attrs = {}, text = null) {
-  const el = document.createElementNS(SVG_NS, name);
-  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
-  if (text !== null) el.textContent = text;
-  return el;
-}
-
-function newChart(container, height, title) {
-  const width = Math.max(container.clientWidth, 260);
-  const id = `${container.id}-title`;
-  const svg = svgEl('svg', { class: 'chart', viewBox: `0 0 ${width} ${height}`, width, height, role: 'img', 'aria-labelledby': id });
-  svg.append(svgEl('title', { id }, title));
-  container.replaceChildren(svg);
-  return { svg, width };
-}
+// ---------- Charts ----------
 
 function drawDotPlot(container, times, average) {
   const height = 150;
@@ -408,47 +374,6 @@ function drawSplitBar(container, average) {
   svg.append(svgEl('text', { x: width - pad, y: 78, class: 'tick', 'text-anchor': 'end' }, `${Math.round(average)} ms`));
 }
 
-function drawBars(container, rows, title) {
-  const rowH = 46;
-  const top = 10;
-  const { svg, width } = newChart(container, top * 2 + rows.length * rowH, title);
-  const labelW = 70;
-  const max = Math.max(...rows.map((r) => r.value)) * 1.25;
-  rows.forEach((r, i) => {
-    const y = top + i * rowH;
-    const w = ((width - labelW - 16) * r.value) / max;
-    svg.append(svgEl('text', { x: 8, y: y + 23, class: 'bar-label', 'text-anchor': 'start' }, r.label));
-    svg.append(svgEl('rect', { x: labelW, y: y + 4, width: w, height: 30, rx: 4, class: r.cls }));
-    svg.append(svgEl('text', { x: labelW + w + 8, y: y + 23, class: 'bar-value', 'text-anchor': 'start' }, `${Math.round(r.value)} ms`));
-  });
-}
-
-// ---------- Copy my results ----------
-
-function copyResults(button) {
-  const text = button.dataset.copy === 'sight'
-    ? sightSummaryText(sightSummary)
-    : senseSummaryText(senses.sight, senses.sound);
-  const box = button.parentElement;
-  const status = box.querySelector('.copy-status');
-  const fallback = box.querySelector('.copy-fallback');
-  const showFallback = () => {
-    fallback.value = text;
-    fallback.hidden = false;
-    fallback.focus();
-    fallback.select();
-    status.textContent = 'Select the text below and copy it.';
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(() => {
-      status.textContent = 'Copied!';
-      fallback.hidden = true;
-    }, showFallback);
-  } else {
-    showFallback();
-  }
-}
-
 // ---------- Input ----------
 
 const running = () => !$('run').hidden && !paused;
@@ -473,9 +398,7 @@ document.addEventListener('keyup', (event) => {
   if (running() && (event.code === 'Space' || event.key === ' ')) event.preventDefault();
 });
 
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') pause();
-});
+onTabHidden(pause);
 
 $('start').addEventListener('click', startSight);
 $('pause').addEventListener('click', pause);
@@ -489,5 +412,7 @@ $('test-sound').addEventListener('click', () => {
   else $('no-audio').hidden = false;
 });
 for (const button of document.querySelectorAll('.copy-btn')) {
-  button.addEventListener('click', () => copyResults(button));
+  button.addEventListener('click', () => copyResults(button, button.dataset.copy === 'sight'
+    ? sightSummaryText(sightSummary)
+    : senseSummaryText(senses.sight, senses.sound)));
 }
