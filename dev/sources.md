@@ -146,7 +146,7 @@ Checked: 2026-10-15 unless noted.
 ## Working memory and chunking (`memory/`)
 
 ### M-1. Miller's "about seven"
-- **Site says:** In 1956, psychologist George Miller described a limit of about seven items.
+- **Site says:** In 1956, psychologist George Miller described a limit of about seven items. Seven is close to how many digits many people can repeat back (Miller's "span of immediate memory").
 - **Source:** Miller, G. A. (1956). The magical number seven, plus or minus two. *Psychological Review*, 63(2), 81-97. https://doi.org/10.1037/h0043158 . Full text: https://psychclassics.yorku.ca/Miller/
 - **Status:** Confirmed.
 

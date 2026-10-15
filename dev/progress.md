@@ -6,15 +6,15 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 
 - [x] 1. Reaction time, Round 1 (sight). Run-through passes: keyboard, mouse, touch, 360 px, 200% zoom, tab switch, Esc pause, too-soon redo, copy and copy fallback, axe clean, 56.6 KB.
 - [x] 2. Reaction time, Round 2 (sight vs. sound). Sound round, skip path, outcome messages, rough-audio note.
-- [ ] 3. Stroop test (color and numbers versions)
-- [ ] 4. Working memory and chunking
+- [x] 3. Stroop test (color and numbers versions). Run-through passes: keyboard (colors), touch at 360 px (numbers), mouse at 200% zoom, too-soon, timeout, tab switch, effect and no-effect outcomes, axe clean, 48.5 KB.
+- [x] 4. Working memory and chunking. Run-through passes: keyboard typing, touch keypad at 360 px, mouse keypad at 200% zoom, tab switch while digits show, Esc while typing, chunking / same / "under 4" outcomes, axe clean, 46.6 KB.
 - [ ] 5. Pattern memory and expertise
 - [ ] 6. Wrapper pages: Home, For Teachers, Privacy, About, Learn More, plus the shared header and footer on every page
 - [ ] 7. Final audit and cleanup
 
 ## Next up
 
-Milestone 3 (Stroop). First move shared pieces (random, stats, charts, page helpers, frame-timed onset) from the reaction time files into `js/lib/`.
+Milestone 5 (Pattern memory and expertise). Shared modules live in `js/lib/` (random, stats, charts, timing, page).
 
 ## How to run things
 
@@ -35,6 +35,15 @@ Milestone 3 (Stroop). First move shared pieces (random, stats, charts, page help
 - **Favicon request.** Chrome fetches `favicon.svg` right after the load event. It is a same-site static file the browser requests on its own, allowed by the CSP (`img-src 'self'`), and it carries no data, so the run-through ignores it when checking for requests after load. Every other request after load fails the check.
 - **Footer on the home page.** CLAUDE.md says "Homepage: no author name" and also "Footer, every page: Built by Smayan Ammasani." Read together: the home page body never names the author, but the standard footer line appears on every page, including home.
 - **Footer license links.** The footer names the licenses as plain text ("Code: MIT · Text and diagrams: CC BY 4.0"). The About page links to the license texts. GitHub Pages would serve the extensionless `LICENSE` file as a download, which is a poor link for students.
+- **Stroop colors.** ORANGE, BLUE, GREEN, PINK from the Okabe-Ito color-blind-friendly palette, on a darker stimulus panel (`#1c2230`, also used by reaction time) so all four reach at least 4.5:1. Red is not used, so there is no red-versus-green pair. The numbers version is offered at the top for anyone who still finds them hard to tell apart.
+- **Stroop "about the same".** Effects under 20 ms in either direction count as "about the same" (`SAME_WITHIN_MS` in `js/stroop-logic.js`).
+- **Stroop keyboard.** Keys 1 to 4 answer. Enter or Space on a focused answer button also answers (timed from keydown), so a keyboard user who Tabs to a button isn't stuck.
+- **Stroop timeouts.** A try with no answer after 3 seconds counts as a mistake and shows "Time's up!" briefly. Practice tries give feedback ("Correct!" or the right answer); real tries do not.
+- **Digit span: one correct try moves up.** SPEC says two tries per length, up if at least one is right, end if both are wrong. If the first try is right, the second can't change the outcome, so we move up right away. Same spans, a shorter task (about 8 minutes instead of 12 or more).
+- **Digit span feedback.** Practice tries show the right answer. Real tries say only "Correct!" or "Not this time." so the feedback doesn't give away the hidden patterns before the reveal.
+- **Digit span pause.** Pausing (or switching tabs) at any point throws out the current string; Resume shows a fresh string of the same kind and length.
+- **Patterned strings.** Chunk pool in `js/memory-logic.js`. Two-digit chunks (24, 60, 12, 50) are used only when a length can't be built from 3s and 4s (lengths 5 and below). '369' was dropped from the pool because it contains a blocked string. Random strings may not contain any pool chunk of 3 or more digits; 2-digit chunks are too common to ban.
+- **Blocked strings** (both tracks): 69, 420, 666, 8008, 80085, 58008, 5318008, 1488, 911, 177013.
 - **Mean absolute deviation standard.** The SPEC said MAD is grade 6 math. In North Carolina's current standards it is NC.7.SP.3 (grade 7); grade 6 covers center, variability, and dot plots (NC.6.SP.3 to 5). The For Teachers page will say so. See `dev/sources.md` W-3.
 
 ## Open problems

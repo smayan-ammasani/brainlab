@@ -2,3 +2,4 @@
 import './lib.test.js';
 import './reaction-time.test.js';
 import './stroop.test.js';
+import './memory.test.js';

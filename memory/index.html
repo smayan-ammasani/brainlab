@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Working Memory and Chunking | [Site Name]</title>
+<meta name="description" content="Remember longer and longer strings of digits, discover a hidden twist, and learn how chunking lets your small working memory hold more.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+<script type="module" src="../js/memory.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="site-name" href="../">[Site Name]</a>
+    <nav aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../reaction-time/">Reaction time</a></li>
+        <li><a href="../stroop/">Stroop test</a></li>
+        <li><a href="../memory/" aria-current="page">Working memory</a></li>
+        <li><a href="../patterns/">Pattern memory</a></li>
+        <li><a href="../teachers/">For teachers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page">
+
+<section id="intro" aria-labelledby="intro-heading">
+  <h1 id="intro-heading" tabindex="-1">Working memory</h1>
+  <p class="hook">How many digits can you hold in your head?</p>
+  <div id="intro-body">
+    <div class="prose">
+      <h2>What you'll do</h2>
+      <p>Digits will flash on the screen one at a time. When they stop, type them back in the same order. The strings start short and get longer each time you get one right. It ends when you miss two in a row at the same length.</p>
+      <p>You'll do 2 practice tries first. Then there's a twist at the end.</p>
+      <ul class="facts">
+        <li>About 8 minutes</li>
+        <li>Works with sound off</li>
+        <li>Mouse, touchscreen, or keyboard</li>
+      </ul>
+      <p class="note">This test shows the digits on the screen, so it needs you to see the screen.</p>
+    </div>
+    <div class="btn-row">
+      <button id="start" class="btn btn-big" type="button">Start</button>
+    </div>
+  </div>
+</section>
+
+<section id="run" aria-labelledby="run-heading" hidden>
+  <div class="run-bar">
+    <h2 id="run-heading" tabindex="-1">Practice</h2>
+    <p id="run-progress" class="progress-text">Practice try 1 of 2</p>
+  </div>
+  <div id="paused" class="paused-box" hidden>
+    <h3 id="paused-heading" tabindex="-1">Paused</h3>
+    <p>The try you were on was thrown out, so it won't mess up your numbers. You'll get a new string of digits when you're ready.</p>
+    <div class="btn-row">
+      <button id="resume" class="btn" type="button">Resume</button>
+      <button id="quit" class="btn btn-secondary" type="button">Start over</button>
+    </div>
+  </div>
+  <div id="stage" class="stage stage-digits">
+    <p id="digit" class="digit"></p>
+    <p id="stage-sub" class="stage-sub"></p>
+  </div>
+  <div id="answer" class="answer-area" hidden>
+    <p id="answer-prompt" class="answer-prompt" tabindex="-1">Type the digits you saw, in order.</p>
+    <p id="typed" class="typed" role="status" aria-label="Your answer"></p>
+    <div class="keypad" role="group" aria-label="Number pad">
+      <button type="button" class="key-btn" data-key="1">1</button>
+      <button type="button" class="key-btn" data-key="2">2</button>
+      <button type="button" class="key-btn" data-key="3">3</button>
+      <button type="button" class="key-btn" data-key="4">4</button>
+      <button type="button" class="key-btn" data-key="5">5</button>
+      <button type="button" class="key-btn" data-key="6">6</button>
+      <button type="button" class="key-btn" data-key="7">7</button>
+      <button type="button" class="key-btn" data-key="8">8</button>
+      <button type="button" class="key-btn" data-key="9">9</button>
+      <button type="button" class="key-btn key-small" data-key="Backspace">Delete</button>
+      <button type="button" class="key-btn" data-key="0">0</button>
+      <button type="button" class="key-btn key-small key-submit" data-key="Enter">Submit</button>
+    </div>
+  </div>
+  <p class="run-help">Watch the digits. Then type them with the number pad or your keyboard (Backspace deletes, Enter submits). Press Esc or the Pause button to pause.</p>
+  <div class="btn-row">
+    <button id="pause" class="btn btn-secondary" type="button">Pause</button>
+  </div>
+</section>
+
+<section id="results" aria-labelledby="results-heading" hidden>
+  <h2 id="results-heading" tabindex="-1">Surprise! Half of those strings were hiding patterns.</h2>
+  <div class="prose">
+    <p>Some of your strings were random. The others were built from number groups you already know, like 2468 or 365. We didn't tell you, so you could see what your brain does on its own.</p>
+  </div>
+  <ul class="stats">
+    <li class="stat"><span class="stat-label">Random strings</span><span class="stat-value"><span data-fill="random-span">0</span> digits</span><span class="stat-help">Your span: the longest random string you got right</span></li>
+    <li class="stat"><span class="stat-label">Patterned strings</span><span class="stat-value"><span data-fill="patterned-span">0</span> digits</span><span class="stat-help">Your span: the longest patterned string you got right</span></li>
+  </ul>
+  <figure>
+    <div id="span-bars"></div>
+    <figcaption>Your span for each kind of string.</figcaption>
+  </figure>
+  <div id="example" class="callout chunk-example">
+    <p data-ex="right">Here's a patterned string you got right, split into its groups:</p>
+    <p data-ex="seen">Here's a patterned string you saw, split into its groups:</p>
+    <p id="chunk-row" class="chunk-row"></p>
+    <p><strong><span data-fill="ex-digits">0</span> digits, but only <span data-fill="ex-chunks">0</span> things to remember.</strong></p>
+  </div>
+  <div class="prose">
+    <p data-outcome="chunking"><strong>Your patterned span was <span data-fill="span-diff">0</span> digits longer than your random span.</strong> The patterns let you hold more. Read on to find out how.</p>
+    <p data-outcome="same"><strong>Your two spans were the same.</strong> That can happen. Maybe you didn't notice the patterns. They were hidden, and the digits went by fast. Or maybe you did really well on the random strings. Below you'll find out how patterns usually help, and you can try again to see if you notice them now that you know.</p>
+    <p data-outcome="reversed"><strong>Your random span was longer than your patterned span.</strong> That's not what usually happens, and it's OK. Maybe you didn't notice the patterns, or you had a great run on the random strings. Each span comes from just a few tries, so a lucky or unlucky try matters a lot. Below you'll find out how patterns usually help.</p>
+    <p>Spans change with sleep, focus, and practice. They don't measure how smart you are.</p>
+  </div>
+  <div class="copy-box">
+    <button class="btn btn-secondary copy-btn" type="button">Copy my results</button>
+    <span class="copy-status" role="status"></span>
+    <textarea class="copy-fallback" rows="3" readonly hidden aria-label="Your results as text. Select it and copy."></textarea>
+  </div>
+</section>
+
+<section id="explain" class="section-block" aria-labelledby="explain-heading" hidden>
+  <h2 id="explain-heading">What just happened in your brain?</h2>
+  <div class="prose">
+    <h3>Working memory is a small workspace</h3>
+    <p><strong>Working memory</strong> is your mind's small workspace. It holds what you're using right now, like a number you're about to type or the start of a sentence you're reading. It is different from <strong>long-term memory</strong>, your huge store of things you know, like your birthday or how to ride a bike.</p>
+
+    <h3>How big is the workspace?</h3>
+    <p>In 1956, a psychologist named George Miller described a limit of about seven items. Later research suggests the real limit is smaller: about three to five chunks, often summed up as "about four," when people can't repeat things to themselves or group them. Digit spans usually come out bigger than four because people silently repeat the digits and find groups.</p>
+
+    <h3>Chunking: same slots, bigger loads</h3>
+    <p>A <strong>chunk</strong> is a group you already know as one thing. When you saw 2 4 6 8, you didn't have to hold four digits. You held one thing: counting by twos. The number of slots in your workspace didn't change. What changed is how much each slot held.</p>
+  </div>
+  <figure>
+    <svg class="diagram diagram-slots" viewBox="0 0 360 236" role="img" aria-labelledby="slots-title slots-desc">
+      <title id="slots-title">Four slots, holding digits or chunks</title>
+      <desc id="slots-desc">Two rows of four boxes. In the top row, labeled random, each box holds one digit: 7, 2, 9, 4. That's 4 digits. In the bottom row, labeled patterned, each box holds a chunk: 2468, 1000, 365, 2026. That's 15 digits in the same four boxes.</desc>
+      <text x="8" y="22" class="slot-label">Random: 4 digits</text>
+      <rect x="8" y="34" width="80" height="54" rx="8" class="slot"/>
+      <rect x="96" y="34" width="80" height="54" rx="8" class="slot"/>
+      <rect x="184" y="34" width="80" height="54" rx="8" class="slot"/>
+      <rect x="272" y="34" width="80" height="54" rx="8" class="slot"/>
+      <text x="48" y="61" class="slot-text">7</text>
+      <text x="136" y="61" class="slot-text">2</text>
+      <text x="224" y="61" class="slot-text">9</text>
+      <text x="312" y="61" class="slot-text">4</text>
+      <text x="8" y="134" class="slot-label">Patterned: 15 digits</text>
+      <rect x="8" y="146" width="80" height="54" rx="8" class="slot slot-chunk"/>
+      <rect x="96" y="146" width="80" height="54" rx="8" class="slot slot-chunk"/>
+      <rect x="184" y="146" width="80" height="54" rx="8" class="slot slot-chunk"/>
+      <rect x="272" y="146" width="80" height="54" rx="8" class="slot slot-chunk"/>
+      <text x="48" y="173" class="slot-text">2468</text>
+      <text x="136" y="173" class="slot-text">1000</text>
+      <text x="224" y="173" class="slot-text">365</text>
+      <text x="312" y="173" class="slot-text">2026</text>
+      <text x="180" y="226" class="slot-note">Same four slots. Each one holds more.</text>
+    </svg>
+    <figcaption>Simplified. Each box is one slot in working memory.</figcaption>
+  </figure>
+  <div class="prose">
+    <p>Where did the chunks come from? From long-term memory. You already knew 2468, 365, and 1000 before you started. Your long-term memory helped your working memory do more.</p>
+    <div class="callout">
+      <p><strong>Here's the big idea:</strong> experts don't have bigger working memories. They have better chunks. The next experiment tests that.</p>
+      <p><a href="../patterns/">Try the pattern memory experiment</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="talk" class="section-block" aria-labelledby="talk-heading" hidden>
+  <h2 id="talk-heading">Talk about it</h2>
+  <ol class="questions prose">
+    <li>How do you remember a phone number or a locker combination?</li>
+    <li>What do you know so well that it feels like one chunk instead of many pieces?</li>
+    <li>Why do you think we didn't tell you about the patterns ahead of time?</li>
+  </ol>
+</section>
+
+<section id="deeper" class="section-block" aria-labelledby="deeper-heading" hidden>
+  <h2 id="deeper-heading">Go deeper</h2>
+  <div class="prose">
+    <details>
+      <summary>Seven or four?</summary>
+      <p>George Miller's famous 1956 paper was called "The Magical Number Seven, Plus or Minus Two." Seven is close to how many digits many people can repeat back. But people repeat digits in their heads and group them, which stretches the number. When scientists block those tricks, the limit drops to about three to five chunks. So both numbers are right, about different things.</p>
+    </details>
+    <details>
+      <summary>Why did the strings alternate?</summary>
+      <p>The random and patterned strings took turns. If all the random ones came first, you'd get extra practice before the patterned ones, and that practice could make the patterned span look better for the wrong reason. Taking turns makes it a fairer test. Scientists call this kind of problem a confound.</p>
+    </details>
+    <details>
+      <summary>Does this measure how smart you are?</summary>
+      <p>No. Your span changes with sleep, focus, practice, and strategies like chunking. It shows how one part of your memory works. It isn't a score for your brain.</p>
+    </details>
+    <details>
+      <summary>Use chunking on purpose</summary>
+      <p>Next time you need to remember a long number, look for groups you already know: a year, a countdown, a double. You just saw how much that can help.</p>
+    </details>
+  </div>
+  <h3>Keep exploring</h3>
+  <div class="btn-row">
+    <button id="again" class="btn" type="button">Try it again</button>
+    <a class="btn btn-secondary" href="../patterns/">Next experiment: Pattern memory</a>
+  </div>
+  <ul class="link-list prose">
+    <li><a href="https://psychclassics.yorku.ca/Miller/">Miller's 1956 paper</a>: the famous "magical number seven" article, hosted by York University. It's written for scientists, so it's a challenge.</li>
+    <li><a href="https://www.brainfacts.org/">BrainFacts.org</a>: articles about memory and the brain from the Society for Neuroscience.</li>
+  </ul>
+</section>
+
+<div id="status" class="visually-hidden" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="page">
+    <p><a href="../about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="../privacy/">Privacy</a></p>
+    <p>No accounts. No tracking. Nothing you do here leaves your device.</p>
+  </div>
+</footer>
+</body>
+</html>
