@@ -181,6 +181,7 @@ Checked: 2026-10-15 unless noted.
 - **Sources:**
   - Gobet, F., & Simon, H. A. (1996). Recall of rapidly presented random chess positions is a function of skill. *Psychonomic Bulletin & Review*, 3(2), 159-163. https://doi.org/10.3758/BF03212414 . Strong players "generally maintain some superiority" with random positions, but the difference is "much smaller."
   - Sala, G., & Gobet, F. (2017). Experts' memory superiority for domain-specific random material generalizes across fields of expertise: A meta-analysis. *Memory & Cognition*, 45(2), 183-193. https://pmc.ncbi.nlm.nih.gov/articles/PMC5323477/ (open access).
+- **Also says (Go deeper):** Even a scrambled board has a few pieces that land in familiar spots by chance, and experts can grab those little chunks, so the advantage shrinks but doesn't vanish. Same in other fields. Source: Sala & Gobet (2017), above: computer simulations show some patterns still occur by chance in random positions, and experts are more likely to notice them because of their large store of chunks; the random-material advantage holds across fields.
 - **Status:** Corrected (the original plan said "no better"; see SPEC section 14, item 3). Note: the SPEC's "Gobet and Simon, 1996" is the *Psychonomic Bulletin & Review* paper above, not their 1996 *Memory & Cognition* paper on distorted positions.
 
 ### P-3. Experts store a large library of chunks
@@ -196,7 +197,11 @@ Checked: 2026-10-15 unless noted.
 ### P-5. Researchers study expertise by timing decisions
 - **Site says:** Researchers now study expertise by timing decisions. One team looked at millions of online chess games and found that players tend to think longer in positions where extra thinking pays off, and that this link is stronger in stronger players.
 - **Source:** Russek, E. M., Acosta-Kane, D., van Opheusden, B., Mattar, M. G., & Griffiths, T. L. (2025). Time spent thinking in online chess reflects the value of computation. *Cognitive Science*, 49(10), e70119. https://pmc.ncbi.nlm.nih.gov/articles/PMC12553403/ (open access; 12.5 million Lichess games).
-- **Status:** Confirmed.
+- **Also says:** A quick move can be a sign that a player recognized something familiar. Source: Gobet, F., & Simon, H. A. (1996). The roles of recognition processes and look-ahead search in time-constrained expert problem solving: Evidence from grandmaster-level chess. *Psychological Science*, 7(1), 52-55. https://doi.org/10.1111/j.1467-9280.1996.tb00666.x . Kasparov's rated strength playing several grandmasters at once, with little time per move, was only slightly lower than under tournament conditions; the authors attribute this to recognition of familiar patterns rather than look-ahead.
+- **Status:** Confirmed. Worded as "can be a sign," not as a rule.
+
+### P-6. Example chunk and grid shapes
+- "Castled king with three pawns in front" is an illustration of a chess chunk, not a factual claim. The grid shapes (letters, square, plus sign, X, diamond, arrow, staircase, smiley face, corners, blocks) are original to this site.
 
 ---
 

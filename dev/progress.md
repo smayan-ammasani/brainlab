@@ -8,13 +8,13 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 - [x] 2. Reaction time, Round 2 (sight vs. sound). Sound round, skip path, outcome messages, rough-audio note.
 - [x] 3. Stroop test (color and numbers versions). Run-through passes: keyboard (colors), touch at 360 px (numbers), mouse at 200% zoom, too-soon, timeout, tab switch, effect and no-effect outcomes, axe clean, 48.5 KB.
 - [x] 4. Working memory and chunking. Run-through passes: keyboard typing, touch keypad at 360 px, mouse keypad at 200% zoom, tab switch while digits show, Esc while typing, chunking / same / "under 4" outcomes, axe clean, 46.6 KB.
-- [ ] 5. Pattern memory and expertise
+- [x] 5. Pattern memory and expertise. Run-through passes: keyboard (arrows, Space, Tab to Check), touch at 360 px, mouse at 200% zoom with reduced motion (timer bar static), tab switch during the 5 seconds swaps in a fresh grid, chunking and same outcomes, axe clean (intro, rebuild, results), 52.6 KB.
 - [ ] 6. Wrapper pages: Home, For Teachers, Privacy, About, Learn More, plus the shared header and footer on every page
 - [ ] 7. Final audit and cleanup
 
 ## Next up
 
-Milestone 5 (Pattern memory and expertise). Shared modules live in `js/lib/` (random, stats, charts, timing, page).
+Milestone 6 (wrapper pages: home, teachers, about, learn more, privacy, plus a draft 404). Shared modules live in `js/lib/` (random, stats, charts, timing, page).
 
 ## How to run things
 
@@ -44,6 +44,9 @@ Milestone 5 (Pattern memory and expertise). Shared modules live in `js/lib/` (ra
 - **Digit span pause.** Pausing (or switching tabs) at any point throws out the current string; Resume shows a fresh string of the same kind and length.
 - **Patterned strings.** Chunk pool in `js/memory-logic.js`. Two-digit chunks (24, 60, 12, 50) are used only when a length can't be built from 3s and 4s (lengths 5 and below). '369' was dropped from the pool because it contains a blocked string. Random strings may not contain any pool chunk of 3 or more digits; 2-digit chunks are too common to ban.
 - **Blocked strings** (both tracks): 69, 420, 666, 8008, 80085, 58008, 5318008, 1488, 911, 177013.
+- **Pattern grids.** 6x6 (the SPEC's default). 16 structured shapes with 10 to 14 cells. Random grids are rejected if they have a straight line of 4 or more (across, down, or diagonal), mirror symmetry, or more than 4 side-by-side touching pairs. Practice uses one shape and one random grid.
+- **Pattern pause.** Pausing or switching tabs during the 5-second look throws out that grid and swaps in a fresh one (a new random grid, or an unused shape with the same cell count, so pairs stay matched). Pausing while rebuilding keeps the student's work, since nothing there is timed and there is nothing to gain from leaving.
+- **Pattern outcome.** Differences under 10 percentage points count as "close."
 - **Mean absolute deviation standard.** The SPEC said MAD is grade 6 math. In North Carolina's current standards it is NC.7.SP.3 (grade 7); grade 6 covers center, variability, and dot plots (NC.6.SP.3 to 5). The For Teachers page will say so. See `dev/sources.md` W-3.
 
 ## Open problems

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Pattern Memory and Expertise | [Site Name]</title>
+<meta name="description" content="Memorize grids for five seconds, compare shapes with random scatters, and learn why experts remember patterns from their field so well.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+<script type="module" src="../js/patterns.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="site-name" href="../">[Site Name]</a>
+    <nav aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../reaction-time/">Reaction time</a></li>
+        <li><a href="../stroop/">Stroop test</a></li>
+        <li><a href="../memory/">Working memory</a></li>
+        <li><a href="../patterns/" aria-current="page">Pattern memory</a></li>
+        <li><a href="../teachers/">For teachers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page">
+
+<section id="intro" aria-labelledby="intro-heading">
+  <h1 id="intro-heading" tabindex="-1">Pattern memory</h1>
+  <p class="hook">Why do experts remember so much?</p>
+  <div id="intro-body">
+    <div class="prose">
+      <h2>What you'll do</h2>
+      <p>A grid of squares will appear with some squares filled in. You get 5 seconds to look. Then the grid clears, and you rebuild it by tapping the squares that were filled. Press Check to see how you did.</p>
+      <p>You'll do 2 practice grids, then 8 real ones.</p>
+      <ul class="facts">
+        <li>About 5 minutes</li>
+        <li>Works with sound off</li>
+        <li>Mouse, touchscreen, or keyboard</li>
+      </ul>
+      <p class="note">This test needs you to see the grid on the screen. With a keyboard, use the arrow keys to move around the grid and Space to fill or clear a square.</p>
+    </div>
+    <div class="btn-row">
+      <button id="start" class="btn btn-big" type="button">Start</button>
+    </div>
+  </div>
+</section>
+
+<section id="run" aria-labelledby="run-heading" hidden>
+  <div class="run-bar">
+    <h2 id="run-heading" tabindex="-1">Practice</h2>
+    <p id="run-progress" class="progress-text">Practice grid 1 of 2</p>
+  </div>
+  <div id="paused" class="paused-box" hidden>
+    <h3 id="paused-heading" tabindex="-1">Paused</h3>
+    <p id="paused-text">You'll get a fresh grid when you're ready, so a quick look won't count.</p>
+    <div class="btn-row">
+      <button id="resume" class="btn" type="button">Resume</button>
+      <button id="quit" class="btn btn-secondary" type="button">Start over</button>
+    </div>
+  </div>
+  <div id="board" class="board">
+    <p id="board-prompt" class="board-prompt" tabindex="-1">Memorize the pattern!</p>
+    <div id="timer-bar" class="timer-bar" aria-hidden="true"><div class="timer-fill"></div></div>
+    <div id="grid" class="grid" role="group" aria-label="Grid, 6 rows by 6 columns"></div>
+    <div id="feedback" class="grid-feedback" hidden>
+      <p id="trial-score" class="trial-score"></p>
+      <ul class="grid-legend">
+        <li><span class="mini cell-correct" aria-hidden="true"></span> Filled: you got it</li>
+        <li><span class="mini cell-missed" aria-hidden="true"></span> Outline: you missed it</li>
+        <li><span class="mini cell-extra" aria-hidden="true"></span> X: you picked it, but it wasn't filled</li>
+      </ul>
+    </div>
+    <div class="btn-row board-buttons">
+      <button id="check" class="btn" type="button" hidden>Check</button>
+      <button id="next" class="btn" type="button" hidden>Next</button>
+    </div>
+  </div>
+  <p class="run-help">Tap or click squares to fill or clear them. With a keyboard: arrow keys move, Space fills or clears, Tab reaches Check. Press Esc or the Pause button to pause.</p>
+  <div class="btn-row">
+    <button id="pause" class="btn btn-secondary" type="button">Pause</button>
+  </div>
+</section>
+
+<section id="results" aria-labelledby="results-heading" hidden>
+  <h2 id="results-heading" tabindex="-1">Your results</h2>
+  <div class="prose">
+    <p>Half of your grids made a shape you already know, like a letter or a plus sign. The other half were scattered at random. Each shape had a random partner with exactly the same number of filled squares.</p>
+  </div>
+  <ul class="stats">
+    <li class="stat"><span class="stat-label">Shape grids</span><span class="stat-value"><span data-fill="structured">0</span>%</span><span class="stat-help">Average score on the 4 shape grids</span></li>
+    <li class="stat"><span class="stat-label">Random grids</span><span class="stat-value"><span data-fill="random">0</span>%</span><span class="stat-help">Average score on the 4 random grids</span></li>
+  </ul>
+  <figure>
+    <div id="pattern-bars"></div>
+    <figcaption>Score: squares you got right, minus extra squares, out of the squares that were filled.</figcaption>
+  </figure>
+  <div class="prose">
+    <p data-outcome="chunking"><strong>You rebuilt the shape grids much better: <span data-fill="structured">0</span>% compared with <span data-fill="random">0</span>%.</strong> Same number of squares, very different scores. Read on to find out why.</p>
+    <p data-outcome="same"><strong>Your two scores were close</strong> (less than 10 points apart). Most people do much better on the shapes. Maybe the random grids happened to be easy to remember, or you found your own patterns in them. That's chunking too! Read on to find out how it usually works.</p>
+    <p data-outcome="reversed"><strong>You did better on the random grids.</strong> That's not what usually happens, and it's OK. With only 4 grids of each kind, one tricky grid can change an average a lot. Maybe you found your own patterns in the random ones. Read on to find out how shapes usually help.</p>
+    <p>Scores change with focus, practice, and how tired you are. They don't measure how smart you are.</p>
+  </div>
+  <div class="copy-box">
+    <button class="btn btn-secondary copy-btn" type="button">Copy my results</button>
+    <span class="copy-status" role="status"></span>
+    <textarea class="copy-fallback" rows="3" readonly hidden aria-label="Your results as text. Select it and copy."></textarea>
+  </div>
+</section>
+
+<section id="explain" class="section-block" aria-labelledby="explain-heading" hidden>
+  <h2 id="explain-heading">What just happened in your brain?</h2>
+  <div class="prose">
+    <h3>Same squares, different chunks</h3>
+    <p>Each shape grid had the same number of filled squares as its random partner. So why was one easier? When you saw a shape, you didn't have to remember a dozen separate squares. You remembered one or two chunks: "a big letter T, starting at the top." Your long-term memory already knew what a T looks like, so your small working memory only had to hold a little.</p>
+    <p>The random grids had no chunks you already knew. Each square was its own thing to remember, and working memory fills up fast.</p>
+
+    <h3>The chess experiment</h3>
+    <p>In the early 1970s, two scientists named William Chase and Herbert Simon tried this with chess. They showed chess players a board for about five seconds, then asked them to set up the pieces from memory. A master rebuilt positions from real games far better than a beginner did.</p>
+    <p>Then they scrambled the pieces into random spots. The master's advantage mostly disappeared. Later research found that strong players still keep a small edge on random boards, but it's much smaller.</p>
+  </div>
+  <figure>
+    <svg class="diagram diagram-chess" viewBox="0 0 344 188" role="img" aria-labelledby="chess-title chess-desc">
+      <title id="chess-title">A real chess position and a scrambled one</title>
+      <desc id="chess-desc">Two chessboards with the same 32 pieces, drawn as light and dark circles. On the left is a position from a real game: pawns sit in neat rows near each side, and the other pieces are where a player would expect them. On the right, the same pieces are scattered at random.</desc>
+      <defs>
+        <pattern id="checks" width="36" height="36" patternUnits="userSpaceOnUse">
+          <rect width="36" height="36" fill="#efe4cf"/>
+          <rect x="18" width="18" height="18" fill="#b58b62"/>
+          <rect y="18" width="18" height="18" fill="#b58b62"/>
+        </pattern>
+      </defs>
+      <text x="82" y="22" class="chess-label">Real game</text>
+      <text x="262" y="22" class="chess-label">Scrambled</text>
+      <g transform="translate(10 34)">
+        <rect width="144" height="144" fill="url(#checks)" stroke="#44515f" stroke-width="2"/>
+        <circle cx="9" cy="135" r="6.5" class="pc-w"/><circle cx="27" cy="135" r="6.5" class="pc-w"/><circle cx="45" cy="135" r="6.5" class="pc-w"/><circle cx="63" cy="135" r="6.5" class="pc-w"/><circle cx="99" cy="135" r="6.5" class="pc-w"/><circle cx="117" cy="135" r="6.5" class="pc-w"/><circle cx="9" cy="117" r="6.5" class="pc-w"/><circle cx="27" cy="117" r="6.5" class="pc-w"/><circle cx="45" cy="117" r="6.5" class="pc-w"/><circle cx="99" cy="117" r="6.5" class="pc-w"/><circle cx="117" cy="117" r="6.5" class="pc-w"/><circle cx="135" cy="117" r="6.5" class="pc-w"/><circle cx="63" cy="99" r="6.5" class="pc-w"/><circle cx="81" cy="81" r="6.5" class="pc-w"/><circle cx="45" cy="81" r="6.5" class="pc-w"/><circle cx="99" cy="99" r="6.5" class="pc-w"/>
+        <circle cx="9" cy="9" r="6.5" class="pc-b"/><circle cx="45" cy="9" r="6.5" class="pc-b"/><circle cx="63" cy="9" r="6.5" class="pc-b"/><circle cx="81" cy="9" r="6.5" class="pc-b"/><circle cx="135" cy="9" r="6.5" class="pc-b"/><circle cx="9" cy="27" r="6.5" class="pc-b"/><circle cx="27" cy="27" r="6.5" class="pc-b"/><circle cx="45" cy="27" r="6.5" class="pc-b"/><circle cx="99" cy="27" r="6.5" class="pc-b"/><circle cx="117" cy="27" r="6.5" class="pc-b"/><circle cx="135" cy="27" r="6.5" class="pc-b"/><circle cx="63" cy="45" r="6.5" class="pc-b"/><circle cx="81" cy="63" r="6.5" class="pc-b"/><circle cx="45" cy="45" r="6.5" class="pc-b"/><circle cx="99" cy="45" r="6.5" class="pc-b"/><circle cx="45" cy="63" r="6.5" class="pc-b"/>
+      </g>
+      <g transform="translate(190 34)">
+        <rect width="144" height="144" fill="url(#checks)" stroke="#44515f" stroke-width="2"/>
+        <circle cx="81" cy="63" r="6.5" class="pc-w"/><circle cx="81" cy="99" r="6.5" class="pc-w"/><circle cx="63" cy="99" r="6.5" class="pc-w"/><circle cx="63" cy="135" r="6.5" class="pc-w"/><circle cx="99" cy="27" r="6.5" class="pc-w"/><circle cx="135" cy="135" r="6.5" class="pc-w"/><circle cx="9" cy="63" r="6.5" class="pc-w"/><circle cx="45" cy="9" r="6.5" class="pc-w"/><circle cx="99" cy="99" r="6.5" class="pc-w"/><circle cx="135" cy="45" r="6.5" class="pc-w"/><circle cx="63" cy="45" r="6.5" class="pc-w"/><circle cx="135" cy="99" r="6.5" class="pc-w"/><circle cx="27" cy="45" r="6.5" class="pc-w"/><circle cx="27" cy="135" r="6.5" class="pc-w"/><circle cx="63" cy="81" r="6.5" class="pc-w"/><circle cx="9" cy="81" r="6.5" class="pc-w"/>
+        <circle cx="63" cy="9" r="6.5" class="pc-b"/><circle cx="45" cy="117" r="6.5" class="pc-b"/><circle cx="27" cy="99" r="6.5" class="pc-b"/><circle cx="117" cy="63" r="6.5" class="pc-b"/><circle cx="9" cy="9" r="6.5" class="pc-b"/><circle cx="81" cy="81" r="6.5" class="pc-b"/><circle cx="27" cy="9" r="6.5" class="pc-b"/><circle cx="99" cy="9" r="6.5" class="pc-b"/><circle cx="27" cy="63" r="6.5" class="pc-b"/><circle cx="81" cy="135" r="6.5" class="pc-b"/><circle cx="99" cy="45" r="6.5" class="pc-b"/><circle cx="117" cy="45" r="6.5" class="pc-b"/><circle cx="45" cy="63" r="6.5" class="pc-b"/><circle cx="99" cy="117" r="6.5" class="pc-b"/><circle cx="135" cy="9" r="6.5" class="pc-b"/><circle cx="45" cy="45" r="6.5" class="pc-b"/>
+      </g>
+    </svg>
+    <figcaption>Same 32 pieces on each board. A chess master sees familiar groups on the left and mostly noise on the right.</figcaption>
+  </figure>
+  <div class="prose">
+    <h3>Experts have better chunks, not bigger memories</h3>
+    <p>The masters had not grown bigger working memories. Years of playing had given them a huge library of familiar chunks, like "castled king with three pawns in front." Researchers estimate that chess masters have tens of thousands of chunks stored in long-term memory. On a real board, they see a few big chunks. On a random board, there are no chunks to find, so they are stuck with the same small workspace as everyone else.</p>
+    <p>The same idea shows up in music, sports, computer programming, and many other fields: experts remember things from their own field far better, mostly because of what they already know. It even ties back to the Stroop test. Reading is something you're an expert at, which is why a word jumps out at you before you can stop it.</p>
+
+    <h3>Where this leads</h3>
+    <p>Researchers now study expertise by timing decisions, not just by testing memory. For example, one team looked at millions of online chess games and timed how long players thought before each move. Players tended to think longer when extra thinking would pay off, and stronger players did this better. A quick move can be a sign that a player recognized something familiar.</p>
+    <p><a href="../about/">The person who built this site studies this.</a></p>
+  </div>
+</section>
+
+<section id="talk" class="section-block" aria-labelledby="talk-heading" hidden>
+  <h2 id="talk-heading">Talk about it</h2>
+  <ol class="questions prose">
+    <li>What are you an expert in? What chunks do you have that a beginner doesn't?</li>
+    <li>Why might a doctor spot something on an X-ray in seconds that a new student would miss?</li>
+    <li>Why was it important that each shape grid had a random partner with the same number of squares?</li>
+  </ol>
+</section>
+
+<section id="deeper" class="section-block" aria-labelledby="deeper-heading" hidden>
+  <h2 id="deeper-heading">Go deeper</h2>
+  <div class="prose">
+    <details>
+      <summary>How many chunks does an expert know?</summary>
+      <p>Nobody can count them directly. But computer models of chess memory suggest that masters store something like tens of thousands of familiar patterns. Building that library takes years of practice and study.</p>
+    </details>
+    <details>
+      <summary>Why didn't the masters' advantage disappear completely?</summary>
+      <p>Even a scrambled board has a few pieces that happen to land in familiar spots, like two pawns side by side. Experts can grab those little chunks. So the advantage gets much smaller, but not quite zero. The same thing happens with experts in other fields.</p>
+    </details>
+    <details>
+      <summary>Why the grids were matched</summary>
+      <p>If the shape grids had fewer filled squares than the random ones, they would be easier for a boring reason. Matching the number of squares means the only real difference is whether the squares make a shape you know. That's what makes it a fair test.</p>
+    </details>
+  </div>
+  <h3>Keep exploring</h3>
+  <div class="btn-row">
+    <button id="again" class="btn" type="button">Try it again</button>
+    <a class="btn btn-secondary" href="../">See all experiments</a>
+  </div>
+  <ul class="link-list prose">
+    <li><a href="../learn-more/">Learn more</a>: hand-picked places to keep learning about the brain.</li>
+    <li><a href="https://www.brainfacts.org/">BrainFacts.org</a>: articles about learning, memory, and the brain from the Society for Neuroscience.</li>
+  </ul>
+</section>
+
+<div id="status" class="visually-hidden" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="page">
+    <p><a href="../about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="../privacy/">Privacy</a></p>
+    <p>No accounts. No tracking. Nothing you do here leaves your device.</p>
+  </div>
+</footer>
+</body>
+</html>

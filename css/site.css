@@ -884,6 +884,184 @@ figcaption {
   font-size: 15px;
 }
 
+/* Pattern memory */
+
+.board {
+  max-width: 22rem;
+  margin: 0.5rem auto;
+}
+
+.board-prompt {
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-align: center;
+  margin: 0.25rem 0 0.5rem;
+  min-height: 3.2em;
+}
+
+.timer-bar {
+  height: 10px;
+  margin-bottom: 0.6rem;
+  border-radius: 5px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.timer-bar.off {
+  visibility: hidden;
+}
+
+.timer-fill {
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left center;
+}
+
+.timer-bar.running .timer-fill {
+  animation: drain 5s linear forwards;
+}
+
+@keyframes drain {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.cell {
+  aspect-ratio: 1;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 2px solid #8792a2;
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+  position: relative;
+  touch-action: manipulation;
+}
+
+.grid.showing .cell {
+  cursor: default;
+}
+
+.cell.filled {
+  background: var(--stage);
+  border-color: var(--stage);
+}
+
+.cell[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent-dark);
+}
+
+/* After Check: shape, not just color, shows each kind of cell. */
+.cell.cell-correct,
+.mini.cell-correct {
+  background: var(--accent);
+  border-color: var(--accent-dark);
+}
+
+.cell.cell-missed,
+.mini.cell-missed {
+  background: var(--surface);
+  border: 5px solid var(--accent-dark);
+}
+
+.cell.cell-extra,
+.mini.cell-extra {
+  background: var(--surface);
+  border-color: #8792a2;
+}
+
+.cell-extra::before,
+.cell-extra::after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  top: 50%;
+  width: 70%;
+  height: 4px;
+  margin-top: -2px;
+  background: #a85c00;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+
+.cell-extra::after {
+  transform: rotate(-45deg);
+}
+
+.grid-feedback {
+  margin-top: 0.75rem;
+}
+
+.trial-score {
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.grid-legend {
+  list-style: none;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.grid-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.mini {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #8792a2;
+  border-radius: 5px;
+}
+
+.board-buttons {
+  justify-content: center;
+}
+
+.diagram-chess {
+  max-width: 30rem;
+}
+
+.chess-label {
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  fill: var(--text);
+}
+
+.pc-w {
+  fill: #ffffff;
+  stroke: #1e2430;
+  stroke-width: 1.5;
+}
+
+.pc-b {
+  fill: #1e2430;
+  stroke: #ffffff;
+  stroke-width: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timer-bar.running .timer-fill {
+    animation: none;
+  }
+}
+
 /* Explanations and the rest of the page */
 
 .section-block {
