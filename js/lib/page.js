@@ -49,6 +49,18 @@ export function clearCopyBoxes() {
   for (const el of document.querySelectorAll('.copy-fallback')) el.hidden = true;
 }
 
+// Swaps the play area for the Paused box, or back again. Every experiment page
+// has #paused (with #paused-heading inside) and a #pause button.
+export function setPaused(isPaused, playAreaId) {
+  $(playAreaId).hidden = isPaused;
+  $('paused').hidden = !isPaused;
+  $('pause').hidden = isPaused;
+  if (isPaused) {
+    $('paused-heading').focus();
+    announce('Paused');
+  }
+}
+
 // Calls fn when the student switches away from the tab.
 export function onTabHidden(fn) {
   document.addEventListener('visibilitychange', () => {

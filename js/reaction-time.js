@@ -9,7 +9,9 @@ import {
   alternatingKinds, compareSenses, sightSummaryText, senseSummaryText, axisFor,
 } from './reaction-time-logic.js';
 import { mulberry32, seedFromClock } from './lib/random.js';
-import { $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden } from './lib/page.js';
+import {
+  $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden, setPaused,
+} from './lib/page.js';
 import { showOnNextFrame } from './lib/timing.js';
 import { svgEl, newChart, drawBars } from './lib/charts.js';
 
@@ -197,18 +199,12 @@ function pause() {
   paused = true;
   cancelTimers();
   trial = null; // the try in progress is thrown out
-  stage.hidden = true;
-  $('paused').hidden = false;
-  $('pause').hidden = true;
-  $('paused-heading').focus();
-  announce('Paused');
+  setPaused(true, 'stage');
 }
 
 function resume() {
   paused = false;
-  stage.hidden = false;
-  $('paused').hidden = true;
-  $('pause').hidden = false;
+  setPaused(false, 'stage');
   $('run-heading').focus();
   next();
 }
@@ -220,9 +216,7 @@ function reset() {
   paused = false;
   sightSummary = null;
   senses = null;
-  stage.hidden = false;
-  $('paused').hidden = true;
-  $('pause').hidden = false;
+  setPaused(false, 'stage');
   clearCopyBoxes();
   showOnly(['intro-body']);
   $('intro-heading').focus();

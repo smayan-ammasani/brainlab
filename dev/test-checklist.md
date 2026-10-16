@@ -18,6 +18,12 @@ Everything below is optional and never blocks launch. The automated run-through 
 - [ ] Reaction time on an iPad or iPhone (Safari): taps register, the beep plays after pressing Start, and nothing zooms on double tap.
 - [ ] Try the bonus round once with Bluetooth headphones to see the delay the page warns about. Sound should look slower than usual.
 
+## Difficulty with real students
+
+- [ ] Pattern memory: if most students score close to 100% on the random grids too, the 6x6 grid is too easy. The SPEC allows 7x7: change `SIZE` in `js/patterns-logic.js` and redraw the shapes for 7 columns.
+- [ ] Working memory: check that a typical run takes about 8 minutes. If it runs much longer, consider a lower cap for the patterned track (`CAPS` in `js/memory-logic.js`).
+- [ ] Stroop: on a real Chromebook screen, check that ORANGE, BLUE, GREEN, and PINK are easy to tell apart at a glance.
+
 ## Look and feel
 
 - [ ] Read one explanation page aloud. Does it sound like something a 6th or 7th grader would follow?

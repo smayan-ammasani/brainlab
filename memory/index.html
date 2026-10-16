@@ -36,7 +36,7 @@
   <div id="intro-body">
     <div class="prose">
       <h2>What you'll do</h2>
-      <p>Digits will flash on the screen one at a time. When they stop, type them back in the same order. The strings start short and get longer each time you get one right. It ends when you miss two in a row at the same length.</p>
+      <p>Digits will flash on the screen one at a time. When they stop, type them back in the same order. The strings start short. Each time you get one right, the next one gets longer. When you start missing, it ends.</p>
       <p>You'll do 2 practice tries first. Then there's a twist at the end.</p>
       <ul class="facts">
         <li>About 8 minutes</li>
@@ -64,6 +64,7 @@
       <button id="quit" class="btn btn-secondary" type="button">Start over</button>
     </div>
   </div>
+  <div id="play-area">
   <div id="stage" class="stage stage-digits">
     <p id="digit" class="digit"></p>
     <p id="stage-sub" class="stage-sub"></p>
@@ -85,6 +86,7 @@
       <button type="button" class="key-btn" data-key="0">0</button>
       <button type="button" class="key-btn key-small key-submit" data-key="Enter">Submit</button>
     </div>
+  </div>
   </div>
   <p class="run-help">Watch the digits. Then type them with the number pad or your keyboard (Backspace deletes, Enter submits). Press Esc or the Pause button to pause.</p>
   <div class="btn-row">
@@ -109,10 +111,10 @@
     <p data-ex="right">Here's a patterned string you got right, split into its groups:</p>
     <p data-ex="seen">Here's a patterned string you saw, split into its groups:</p>
     <p id="chunk-row" class="chunk-row"></p>
-    <p><strong><span data-fill="ex-digits">0</span> digits, but only <span data-fill="ex-chunks">0</span> things to remember.</strong></p>
+    <p><strong><span data-fill="ex-digits">0</span> digits, but only <span data-fill="ex-chunks">0 things</span> to remember.</strong></p>
   </div>
   <div class="prose">
-    <p data-outcome="chunking"><strong>Your patterned span was <span data-fill="span-diff">0</span> digits longer than your random span.</strong> The patterns let you hold more. Read on to find out how.</p>
+    <p data-outcome="chunking"><strong>Your patterned span was <span data-fill="span-diff">0 digits</span> longer than your random span.</strong> The patterns let you hold more. Read on to find out how.</p>
     <p data-outcome="same"><strong>Your two spans were the same.</strong> That can happen. Maybe you didn't notice the patterns. They were hidden, and the digits went by fast. Or maybe you did really well on the random strings. Below you'll find out how patterns usually help, and you can try again to see if you notice them now that you know.</p>
     <p data-outcome="reversed"><strong>Your random span was longer than your patterned span.</strong> That's not what usually happens, and it's OK. Maybe you didn't notice the patterns, or you had a great run on the random strings. Each span comes from just a few tries, so a lucky or unlucky try matters a lot. Below you'll find out how patterns usually help.</p>
     <p>Spans change with sleep, focus, and practice. They don't measure how smart you are.</p>

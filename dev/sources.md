@@ -51,7 +51,7 @@ Checked: 2026-10-15 unless noted.
 - **Status:** Confirmed. The site does not claim the rule is beyond debate.
 
 ### RT-8. Web pages, screens, keyboards, and speakers add delay
-- **Site says:** Your device adds some delay that this page cannot measure, so your true reaction time is probably a little faster than the number shown. Scientists have tested this and found that the amount depends on the device and browser.
+- **Site says:** Your device adds some delay that this page cannot measure, so your true reaction time is probably a little faster than the number shown. Scientists have tested this, including with robots that press keys at exact times, and found that the amount depends on the device and browser.
 - **Sources:**
   - Bridges, D., Pitiot, A., MacAskill, M. R., & Peirce, J. W. (2020). The timing mega-study: comparing a range of experiment generators, both lab-based and online. *PeerJ*, 8, e9414. https://doi.org/10.7717/peerj.9414 (open access).
   - Anwyl-Irvine, A., Dalmaijer, E. S., Hodges, N., & Evershed, J. K. (2021). Realistic precision and accuracy of online experiment platforms, web browsers, and devices. *Behavior Research Methods*, 53, 1407-1425. https://doi.org/10.3758/s13428-020-01501-5 (open access, PMC8367876).
@@ -96,7 +96,7 @@ Checked: 2026-10-15 unless noted.
 ## Stroop test (`stroop/`)
 
 ### S-1. Stroop's 1935 study
-- **Site says:** John Ridley Stroop published this effect in 1935.
+- **Site says:** John Ridley Stroop published this effect in 1935. In his version, people named the ink colors on a sheet of 100 color words out loud, and he timed each whole sheet. (Checked against the full text: 100 items per sheet, timed with a stopwatch; he attributed the effect to the difference in training between reading and naming colors.)
 - **Source:** Stroop, J. R. (1935). Studies of interference in serial verbal reactions. *Journal of Experimental Psychology*, 18(6), 643-662. https://doi.org/10.1037/h0054651 . Full text: https://psychclassics.yorku.ca/Stroop/
 - **Status:** Confirmed.
 
@@ -215,11 +215,22 @@ Checked: 2026-10-15 unless noted.
 ### W-2. What the security policy blocks
 - **Site says:** The page's security policy includes `connect-src 'none'`, which tells the browser to block this site's code from sending or fetching data over the network.
 - **Source:** MDN, "Content-Security-Policy: connect-src." https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src . Restricts fetch, XMLHttpRequest, WebSocket, EventSource, and `navigator.sendBeacon`.
+- **Also says:** The site tells your browser not to share which page you came from when you follow a link. Source: every page has `<meta name="referrer" content="no-referrer">`; MDN, "Referrer-Policy: no-referrer" (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy).
 - **Status:** Confirmed.
 
+### W-4. Learn More descriptions
+- PhET Neuron: see RT-14. Neuroscience for Kids: the page says it "is maintained by Eric H. Chudler, Ph.D.", last updated October 5, 2026 when checked. BrainFacts.org: Society for Neuroscience site with articles, a 3D brain, and educator resources. All three links loaded on 2026-10-15.
+
 ### W-3. North Carolina standards
-- **Science (2023 NC Standard Course of Study, adopted July 2023, required from fall 2024):** LS.7.1.4: "Construct an explanation summarizing how the major systems of the human body interact with each other to support life," including the nervous system. Sources: Common Standards Project listing of NC Science (2023) Grade 7; Stile Education NC alignment; DPI Grade 7 crosswalk (https://www.dpi.nc.gov/documents/cte/curriculum/science/crosswalk-7th-grade-science-standards/open, returned 404 when checked). **[VERIFY]** exact wording against the official DPI Grade 7 standards PDF.
-- **Math (NC Standard Course of Study, adopted 2017, in use since 2018-19):** NC.6.SP.3 (center and variability), NC.6.SP.4 (dot plots), NC.6.SP.5 (summarize data: center, variability, number of observations, units). Mean absolute deviation is **NC.7.SP.3** (grade 7) in North Carolina, not grade 6 as in the Common Core. Source: standards listings at https://goblins.com/standards/math/north-carolina/nc-6/print and .../nc-7/print. **[VERIFY]** against the official DPI document.
+- **Science (2023 NC Standard Course of Study, approved by the State Board in 2023, required from 2024):** Checked against the official "2023 K-12 Science Standards" Google Doc linked from NC DPI's science resources page (https://www.dpi.nc.gov/districts-schools/classroom-resources/academic-standards/standard-course-study/science/resources).
+  - LS.7.1.4: "Construct an explanation to summarize how the major systems of the human body interact with each other to support life," with the nervous system in its list of systems. Parent LS.7.1: understand the processes, structures and functions of living organisms that enable them to survive and reproduce.
+  - PS.6.3.2: carry out investigations to conclude the relationship between the electromagnetic spectrum (including visible light) and sight. PS.6.3.3: carry out investigations to conclude the relationship between sound waves and hearing. Parent PS.6.3: properties of waves.
+  - LS.7.1.4 is the only grade 6 to 8 objective that names the nervous system. No grade 6 to 8 objective mentions stimuli or memory.
+  - The standards name practices inside each objective, including "Carry out investigations" and "Analyze and interpret data." The For Teachers page uses those words.
+- **Math (NC Standard Course of Study for Mathematics, in use since 2018-19):** Checked against the official "K-12 Mathematics Standards" Google Doc linked from NC DPI's math resources page (https://www.dpi.nc.gov/districts-schools/classroom-resources/academic-standards/standard-course-study/mathematics/resources).
+  - NC.6.SP.4: display numerical data in plots on a number line (dot plots). NC.6.SP.5: summarize numerical data sets in relation to their context.
+  - NC.7.SP.3: includes "Understand the mean absolute deviation of a data set is a measure of variability..." and informally assessing the difference between two data sets. NC.7.SP.4: use measures of center and variability to draw comparative inferences.
+- **Status:** Confirmed against official DPI documents (2026-10-15).
 - **Correction:** The SPEC said mean absolute deviation is part of 6th grade math. That is true in the Common Core (6.SP.5c) but not in North Carolina's current standards, where it is NC.7.SP.3. The site says grade 7.
 - **Heads-up:** NC began revising its K-12 math standards in April 2025. Draft 3 went to the State Board in August 2026, with full implementation planned for 2028-29 (EdNC slides: https://www.ednc.org/wp-content/uploads/2026/09/Math-Standards-Draft-3-August-2026-SBE-Presentation_485690xjxiilzqqmqjeeiat2od1q2m.pdf). Codes may change. The For Teachers page names the standards edition it uses.
 

@@ -10,11 +10,17 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 - [x] 4. Working memory and chunking. Run-through passes: keyboard typing, touch keypad at 360 px, mouse keypad at 200% zoom, tab switch while digits show, Esc while typing, chunking / same / "under 4" outcomes, axe clean, 46.6 KB.
 - [x] 5. Pattern memory and expertise. Run-through passes: keyboard (arrows, Space, Tab to Check), touch at 360 px, mouse at 200% zoom with reduced motion (timer bar static), tab switch during the 5 seconds swaps in a fresh grid, chunking and same outcomes, axe clean (intro, rebuild, results), 52.6 KB.
 - [x] 6. Wrapper pages: Home, For Teachers, Privacy, About, Learn More, plus the shared header and footer on every page. Also a draft `404.html` (finished at deploy) and a short `README.md`. Run-through passes on all 9 pages: internal links, keyboard focus visible at every stop, no sideways scroll at 360 px or 200% zoom, axe clean, all pages under 70 KB.
-- [ ] 7. Final audit and cleanup
+- [x] 7. Final audit and cleanup. `node dev/audit.mjs` clean (identical CSP on all 10 pages, nothing inline, no storage or network APIs, all URLs outbound links, no em dashes, SVG text alternatives). Full `node dev/e2e.mjs` passes on all 9 pages (zero requests after load, no console errors, axe clean, keyboard focus visible, 360 px and 200% zoom, reduced motion). Largest page 69.4 KB. NC standards confirmed against DPI's official documents. Outbound links checked. Pause code shared via `setPaused()`.
 
 ## Next up
 
-Milestone 7 (final audit). Then deployment is a separate step (Prompt 3), which must: replace `[Site Name]` and `[contact email]`, replace `[site root]` in `404.html`, add Open Graph tags and a preview image, add a link to the source repository on the About page, and recheck the outbound links.
+The build is done. Deployment is a separate step (Prompt 3), which must: replace `[Site Name]` and `[contact email]`, replace `[site root]` in `404.html`, add Open Graph tags and a preview image, add a link to the source repository on the About page, and recheck the outbound links right before launch.
+
+## Remaining [VERIFY] items
+
+None appear on the site. Two SPEC claims could not be confirmed and are kept off the site:
+- The "often around 100 ms" key hold time behind the press-not-release rule (`dev/sources.md` T-2). The rule itself is followed either way.
+- Eric Chudler's July 2025 retirement (T-4). Learn More only links to Neuroscience for Kids, which was live and updated October 5, 2026.
 
 ## How to run things
 
@@ -48,12 +54,16 @@ Milestone 7 (final audit). Then deployment is a separate step (Prompt 3), which 
 - **Pattern pause.** Pausing or switching tabs during the 5-second look throws out that grid and swaps in a fresh one (a new random grid, or an unused shape with the same cell count, so pairs stay matched). Pausing while rebuilding keeps the student's work, since nothing there is timed and there is nothing to gain from leaving.
 - **Pattern outcome.** Differences under 10 percentage points count as "close."
 - **No script on wrapper pages.** SPEC section 2 says each page has one stylesheet and one module script. The wrapper pages (home, teachers, privacy, about, learn more, 404) have nothing to run, so they load only the stylesheet. Fewer files, nothing to break.
-- **Learn More link.** The header holds only the four experiments and For teachers (per SPEC), so Learn More is linked from the home page, the pattern memory page, and the reaction time page's PhET handoff.
+- **Learn More link.** The header holds only the four experiments and For teachers (per SPEC), so Learn More is linked from the home page and from the pattern memory page's closing links.
 - **About page research sentence.** The pattern memory page links to About with "The person who built this site studies this," so the About page adds one sentence: "My own research looks at how expertise shows up in the timing of decisions, like how long chess players think before a move." The owner should confirm this wording.
 - **Extra standards.** The bonus round also fits NC 2023 science PS.6.3.2 (light and sight) and PS.6.3.3 (sound and hearing), found while checking the grade 6 and 8 standards. Listed on For Teachers.
 - **404 page** is a draft with `[site root]` placeholders, because GitHub Pages serves it at any missing path and relative links would break. Finished at deploy, as the SPEC says.
-- **Mean absolute deviation standard.** The SPEC said MAD is grade 6 math. In North Carolina's current standards it is NC.7.SP.3 (grade 7); grade 6 covers center, variability, and dot plots (NC.6.SP.3 to 5). The For Teachers page will say so. See `dev/sources.md` W-3.
+- **Mean absolute deviation standard.** The SPEC said MAD is grade 6 math. In North Carolina's current standards it is NC.7.SP.3 (grade 7); grade 6 covers dot plots and summarizing data (NC.6.SP.4 and 5). The For Teachers page says so. Confirmed against DPI's official documents. See `dev/sources.md` W-3.
+- **Shared pause helper.** All four experiments use `setPaused()` in `js/lib/page.js` to swap their play area for the Paused box. The trial loops themselves stay in each page's script, because each experiment's flow is different enough that a shared runner would be more code, not less.
+- **Static audit.** `node dev/audit.mjs` checks the rules that can be read straight from the files: identical CSP, one stylesheet, at most one external module script, nothing inline, no storage or network APIs, every URL an outbound link, no em dashes anywhere, every SVG has a text alternative or is hidden, page weight, a rough reading-level estimate, and a list of words to review by hand.
+- **Reading level.** The audit's rough Flesch-Kincaid estimate puts the student pages around grade 4 to 6, at or below the grade 6 to 7 target.
+- **6x6 grid kept.** The SPEC says try 7x7 if 6x6 is too easy. That can only be judged with real students, so it is in `dev/test-checklist.md`.
 
 ## Open problems
 
-None yet.
+None blocking. Things only a person can check are in `dev/test-checklist.md` (a school Chromebook behind the district filter, ChromeVox, real-device audio, difficulty with real students).

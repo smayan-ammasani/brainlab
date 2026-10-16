@@ -8,7 +8,9 @@ import {
   memorySummaryText, revealExample, PRACTICE_LENGTH, PRACTICE_TRIES, DIGIT_ON_MS, DIGIT_OFF_MS,
 } from './memory-logic.js';
 import { mulberry32, seedFromClock } from './lib/random.js';
-import { $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden } from './lib/page.js';
+import {
+  $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden, setPaused,
+} from './lib/page.js';
 import { drawBars } from './lib/charts.js';
 
 const rng = mulberry32(seedFromClock());
@@ -151,18 +153,12 @@ function pause() {
   paused = true;
   clearTimers();
   current = null; // the string in progress is thrown out
-  $('stage').hidden = true;
-  $('answer').hidden = true;
-  $('paused').hidden = false;
-  $('pause').hidden = true;
-  $('paused-heading').focus();
-  announce('Paused');
+  setPaused(true, 'play-area');
 }
 
 function resume() {
   paused = false;
-  $('paused').hidden = true;
-  $('pause').hidden = false;
+  setPaused(false, 'play-area');
   $('run-heading').focus();
   nextTry(); // a fresh string of the same kind and length
 }
@@ -173,8 +169,7 @@ function reset() {
   paused = false;
   current = null;
   spans = null;
-  $('paused').hidden = true;
-  $('pause').hidden = false;
+  setPaused(false, 'play-area');
   $('stage').hidden = false;
   $('answer').hidden = true;
   clearCopyBoxes();
@@ -189,7 +184,9 @@ function showResults() {
   spans = { random: tracks.random.span, patterned: tracks.patterned.span };
   fill('random-span', spanText(spans.random));
   fill('patterned-span', spanText(spans.patterned));
-  fill('span-diff', spans.patterned - spans.random);
+  // A random span of 0 means "under 4", so count from 3 and say "at least".
+  const diff = spans.patterned - (spans.random || 3);
+  fill('span-diff', `${spans.random ? '' : 'at least '}${diff} ${diff === 1 ? 'digit' : 'digits'}`);
   const outcome = compareSpans(spans);
   for (const el of document.querySelectorAll('[data-outcome]')) el.hidden = el.dataset.outcome !== outcome;
 
@@ -213,7 +210,8 @@ function showResults() {
       row.append(span);
     });
     fill('ex-digits', example.digits.length);
-    fill('ex-chunks', example.chunks.length);
+    const n = example.chunks.length;
+    fill('ex-chunks', `${n} ${n === 1 ? 'thing' : 'things'}`);
   }
 
   showOnly(['results', 'explain', 'talk', 'deeper']);

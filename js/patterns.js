@@ -6,7 +6,9 @@ import {
   buildTrials, replacementGrid, compareGrid, scoreTrial, summarize, patternsSummaryText, SIZE, CELLS, SHOW_MS,
 } from './patterns-logic.js';
 import { mulberry32, seedFromClock } from './lib/random.js';
-import { $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden } from './lib/page.js';
+import {
+  $, showOnly as showSections, announce, fill, copyResults, clearCopyBoxes, onTabHidden, setPaused,
+} from './lib/page.js';
 import { drawBars } from './lib/charts.js';
 
 const rng = mulberry32(seedFromClock());
@@ -177,21 +179,15 @@ function pause() {
   pausedPhase = phase;
   clearTimeout(showTimer);
   timerBar.classList.remove('running');
-  $('board').hidden = true;
-  $('paused').hidden = false;
-  $('pause').hidden = true;
   $('paused-text').textContent = phase === 'show'
     ? "That grid was thrown out. You'll get a fresh one when you're ready, so a quick look won't count."
     : 'Your grid is saved. You can pick up where you left off.';
-  $('paused-heading').focus();
-  announce('Paused');
+  setPaused(true, 'board');
 }
 
 function resume() {
   paused = false;
-  $('board').hidden = false;
-  $('paused').hidden = true;
-  $('pause').hidden = false;
+  setPaused(false, 'board');
   if (pausedPhase === 'show') {
     // The student may have seen part of the grid, so swap in a fresh one.
     const fresh = replacementGrid(rng, trial, plan.used);
@@ -210,9 +206,7 @@ function reset() {
   phase = 'idle';
   paused = false;
   summary = null;
-  $('board').hidden = false;
-  $('paused').hidden = true;
-  $('pause').hidden = false;
+  setPaused(false, 'board');
   clearCopyBoxes();
   showOnly(['intro-body']);
   $('intro-heading').focus();
