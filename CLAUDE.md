@@ -22,9 +22,9 @@ For everything else: decide, write it down, keep going.
 
 ## Project facts
 
-- **Site name:** [TBD]. Until it is set, use the literal text `[Site Name]` wherever the name appears, so it is easy to find and replace.
-- **Domain:** [TBD: custom domain, or GitHub Pages only]. Until it is set, assume the site lives at `https://<username>.github.io/<repo>/`. That means every internal link must be relative (no leading `/`).
-- **Contact email:** [TBD]. Until it is set, use the literal text `[contact email]`.
+- **Site name:** BrainLab.
+- **Domain:** GitHub Pages for now, at `https://smayan-ammasani.github.io/brainlab/` (repo `smayan-ammasani/brainlab`). A custom domain (maybe `brainlabb.org`) may come later; switching needs a `CNAME` file and new absolute URLs in the Open Graph tags and `404.html`. Every internal link must stay relative (no leading `/`).
+- **Contact email:** smayan.ammasani@gmail.com.
 - **My machine:** Windows, Python 3.13.
 
 ## What this is

@@ -44,9 +44,10 @@ for (const page of PAGES) {
   if (/<style\b/i.test(html)) fail(`${page}: <style> block`);
   if (/\sstyle="/i.test(html)) fail(`${page}: style attribute`);
   if (/\son[a-z]+="/i.test(html)) fail(`${page}: inline event handler`);
-  // Internal links must be relative (404.html uses placeholders until deploy).
+  // Internal links must be relative. 404.html is the exception: GitHub Pages
+  // serves it at any missing path, so it uses root-based links on purpose.
   for (const [, href] of html.matchAll(/\shref="([^"]+)"/g)) {
-    if (href.startsWith('/')) fail(`${page}: root-relative link ${href}`);
+    if (href.startsWith('/') && page !== '404.html') fail(`${page}: root-relative link ${href}`);
   }
   // Every svg needs a text alternative or must be hidden from screen readers.
   for (const [svg] of html.matchAll(/<svg\b[^>]*>/g)) {
@@ -75,7 +76,9 @@ for (const f of siteFiles) {
     const before = src.slice(Math.max(0, m.index - 6), m.index);
     const isLink = before.endsWith('href="');
     const isNamespace = m[0].startsWith('http://www.w3.org/2000/svg');
-    if (!isLink && !isNamespace) fail(`${f}: URL that is not an outbound link: ${m[0]}`);
+    // Link preview tags name the site's own public address; browsers never fetch them.
+    const isPreviewTag = /<meta property="og:[^>]*$/.test(src.slice(Math.max(0, m.index - 80), m.index));
+    if (!isLink && !isNamespace && !isPreviewTag) fail(`${f}: URL that is not an outbound link: ${m[0]}`);
   }
 }
 const EM_DASH = String.fromCharCode(0x2014);
@@ -102,7 +105,14 @@ for (const page of PAGES) {
   const html = read(page);
   const files = new Set([page]);
   const dir = path.posix.dirname(page);
-  for (const [, href] of html.matchAll(/<link[^>]+href="([^"[]+)"/g)) files.add(path.posix.join(dir, href));
+  // Root-based links (only in 404.html) start with the site's root path, like
+  // /brainlab/css/site.css, or just /css/site.css on a custom domain.
+  const local = (href) => {
+    if (!href.startsWith('/')) return path.posix.join(dir, href);
+    const withoutRepo = href.replace(/^\/[^/]+\//, '');
+    return fs.existsSync(path.join(ROOT, withoutRepo)) ? withoutRepo : href.slice(1);
+  };
+  for (const [, href] of html.matchAll(/<link[^>]+href="([^"[]+)"/g)) files.add(local(href));
   for (const [, src] of html.matchAll(/<script[^>]+src="([^"]+)"/g)) for (const m of moduleGraph(path.posix.join(dir, src))) files.add(m);
   const bytes = [...files].reduce((sum, f) => sum + fs.statSync(path.join(ROOT, f)).size, 0);
   weights.push([page, bytes]);

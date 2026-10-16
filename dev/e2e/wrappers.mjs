@@ -32,7 +32,7 @@ async function keyboardPass(page, label) {
 async function checkLinks(page, label) {
   const links = await page.$$eval('a[href]', (as) => as.map((a) => ({ raw: a.getAttribute('href'), url: a.href })));
   for (const { raw, url } of links) {
-    if (/^https?:/.test(raw)) continue; // outbound links are checked by hand before launch
+    if (/^(https?|mailto):/.test(raw)) continue; // outbound and email links are checked by hand
     check(!raw.startsWith('/'), `${label}: link ${raw} starts with / (must be relative)`);
     if (raw.startsWith('#')) continue;
     const res = await fetch(url);

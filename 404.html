@@ -5,26 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
-<title>Page not found | [Site Name]</title>
+<title>Page not found | BrainLab</title>
 <meta name="description" content="This page doesn't exist. Head back to the experiments.">
-<!-- DRAFT: finished at deploy time. GitHub Pages serves this file at whatever
-     path was missing, so relative links break. Replace [site root] with the
-     site's root path (for example /repo-name or nothing for a custom domain). -->
-<link rel="icon" href="[site root]/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="[site root]/css/site.css">
+<!-- Template for 404.html. Run node dev/site-url.mjs <site URL> to build it.
+     GitHub Pages serves 404.html at whatever path was missing, so this page
+     uses root-based links: /brainlab becomes /brainlab, or nothing on a
+     custom domain. -->
+<link rel="icon" href="/brainlab/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/brainlab/css/site.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-header">
   <div class="page header-inner">
-    <a class="site-name" href="[site root]/">[Site Name]</a>
+    <a class="site-name" href="/brainlab/">BrainLab</a>
     <nav aria-label="Main">
       <ul class="nav-list">
-        <li><a href="[site root]/reaction-time/">Reaction time</a></li>
-        <li><a href="[site root]/stroop/">Stroop test</a></li>
-        <li><a href="[site root]/memory/">Working memory</a></li>
-        <li><a href="[site root]/patterns/">Pattern memory</a></li>
-        <li><a href="[site root]/teachers/">For teachers</a></li>
+        <li><a href="/brainlab/reaction-time/">Reaction time</a></li>
+        <li><a href="/brainlab/stroop/">Stroop test</a></li>
+        <li><a href="/brainlab/memory/">Working memory</a></li>
+        <li><a href="/brainlab/patterns/">Pattern memory</a></li>
+        <li><a href="/brainlab/teachers/">For teachers</a></li>
       </ul>
     </nav>
   </div>
@@ -35,13 +36,13 @@
     <h1>Page not found</h1>
     <p class="hook">Looks like this link took a wrong turn.</p>
     <p>There's no page at this address. It may have moved, or the link may have a typo.</p>
-    <p><a class="btn" href="[site root]/">Go to the experiments</a></p>
+    <p><a class="btn" href="/brainlab/">Go to the experiments</a></p>
   </div>
 </main>
 
 <footer class="site-footer">
   <div class="page">
-    <p><a href="[site root]/about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="[site root]/privacy/">Privacy</a></p>
+    <p><a href="/brainlab/about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="/brainlab/privacy/">Privacy</a></p>
     <p>No accounts. No tracking. Nothing you do here leaves your device.</p>
   </div>
 </footer>

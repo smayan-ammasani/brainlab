@@ -1,4 +1,4 @@
-# [Site Name]
+# BrainLab
 
 A free, static website where middle school students run real cognitive experiments on themselves, get their own numbers, and then learn the neuroscience behind those numbers.
 
