@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Privacy | [Site Name]</title>
+<meta name="description" content="What this site does and does not do with your information: no accounts, no tracking, and nothing you do leaves your device.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="site-name" href="../">[Site Name]</a>
+    <nav aria-label="Main">
+      <ul class="nav-list">
+        <li><a href="../reaction-time/">Reaction time</a></li>
+        <li><a href="../stroop/">Stroop test</a></li>
+        <li><a href="../memory/">Working memory</a></li>
+        <li><a href="../patterns/">Pattern memory</a></li>
+        <li><a href="../teachers/">For teachers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page">
+  <div class="prose">
+    <h1>Privacy</h1>
+    <p class="hook">Short version: nothing you do here leaves your device.</p>
+
+    <h2>What this site does not do</h2>
+    <ul>
+      <li>No accounts or logins.</li>
+      <li>No cookies.</li>
+      <li>No browser storage. The site doesn't save anything on your device, not even your settings.</li>
+      <li>No analytics, ads, or tracking of any kind.</li>
+      <li>No sending of results anywhere. Your numbers live in the open browser tab and disappear when you close it or reload the page.</li>
+      <li>Nothing loaded from other websites: no outside fonts, scripts, images, or videos.</li>
+      <li>No requests for your microphone, camera, location, or notifications.</li>
+    </ul>
+
+    <h2>How we know</h2>
+    <p>Every page carries a security rule, called a Content Security Policy, that your browser enforces. One part of it, <code>connect-src 'none'</code>, tells the browser to block the page from sending or fetching any data over the network. Other parts block anything from loading from other websites. So even if a mistake slipped into the code, your browser would stop it from sending your information anywhere.</p>
+    <p>The "Copy my results" button puts a line of text on your device's clipboard, and only when you press it. What happens to that text next is up to you.</p>
+
+    <h2>What we can't control</h2>
+    <ul>
+      <li><strong>The web host.</strong> This site is hosted on GitHub Pages. GitHub logs and stores visitors' IP addresses for security reasons, whether or not the visitor has a GitHub account. See <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages">GitHub's page about GitHub Pages</a> and the GitHub Privacy Statement linked from it.</li>
+      <li><strong>Other websites.</strong> Links to other sites, like PhET or BrainFacts.org, follow those sites' own privacy policies. This site tells your browser not to share which page you came from when you follow a link.</li>
+      <li><strong>Your school or device.</strong> Schools and device owners may keep their own records of which websites are visited.</li>
+    </ul>
+
+    <h2>Questions</h2>
+    <p>Email [contact email].</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="page">
+    <p><a href="../about/">Built by Smayan Ammasani</a> · Code: MIT · Text and diagrams: CC BY 4.0 · <a href="../privacy/" aria-current="page">Privacy</a></p>
+    <p>No accounts. No tracking. Nothing you do here leaves your device.</p>
+  </div>
+</footer>
+</body>
+</html>

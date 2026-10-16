@@ -1101,6 +1101,192 @@ details[open] summary {
   margin-bottom: 0.5rem;
 }
 
+/* Home page */
+
+.hero {
+  padding: 1rem 0 0.5rem;
+}
+
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem 0.9rem;
+}
+
+.card:hover {
+  border-color: var(--accent);
+}
+
+.card h2 {
+  font-size: 1.4rem;
+  margin: 0.1em 0 0.4em;
+}
+
+.card h2 a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* The whole card is clickable through its heading link. */
+.card h2 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+}
+
+.card h2 a:focus-visible {
+  outline: none;
+}
+
+.card:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.card-tag {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.card-meta {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.teacher-link {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Teachers and other pages */
+
+.checklist {
+  padding-left: 1.2rem;
+}
+
+.checklist li {
+  margin-bottom: 0.4rem;
+}
+
+.sample {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+}
+
+code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.95em;
+  background: var(--accent-soft);
+  padding: 0.05em 0.3em;
+  border-radius: 4px;
+}
+
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  margin: 0.5rem 0 1rem;
+  background: var(--surface);
+}
+
+.teacher-table th,
+.teacher-table td {
+  border: 1px solid var(--line);
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.teacher-table thead th {
+  background: var(--accent-soft);
+}
+
+/* On narrow screens, each row becomes a card with labels. */
+@media (max-width: 760px) {
+  .teacher-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .teacher-table,
+  .teacher-table tbody,
+  .teacher-table tr,
+  .teacher-table th,
+  .teacher-table td {
+    display: block;
+  }
+
+  .teacher-table tr {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .teacher-table th,
+  .teacher-table td {
+    border: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .teacher-table th[scope="row"] {
+    border-top: none;
+    background: var(--accent-soft);
+    font-size: 1.15rem;
+  }
+
+  .teacher-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 700;
+    color: var(--muted);
+  }
+}
+
+.resource-list {
+  list-style: none;
+  padding: 0;
+}
+
+.resource-list li {
+  border-top: 1px solid var(--line);
+  padding-top: 0.25rem;
+}
+
+.resource-list h2 {
+  font-size: 1.35rem;
+  margin-top: 0.8em;
+}
+
 /* Unit test page */
 
 .test-results {

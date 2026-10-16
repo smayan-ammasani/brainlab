@@ -9,12 +9,12 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 - [x] 3. Stroop test (color and numbers versions). Run-through passes: keyboard (colors), touch at 360 px (numbers), mouse at 200% zoom, too-soon, timeout, tab switch, effect and no-effect outcomes, axe clean, 48.5 KB.
 - [x] 4. Working memory and chunking. Run-through passes: keyboard typing, touch keypad at 360 px, mouse keypad at 200% zoom, tab switch while digits show, Esc while typing, chunking / same / "under 4" outcomes, axe clean, 46.6 KB.
 - [x] 5. Pattern memory and expertise. Run-through passes: keyboard (arrows, Space, Tab to Check), touch at 360 px, mouse at 200% zoom with reduced motion (timer bar static), tab switch during the 5 seconds swaps in a fresh grid, chunking and same outcomes, axe clean (intro, rebuild, results), 52.6 KB.
-- [ ] 6. Wrapper pages: Home, For Teachers, Privacy, About, Learn More, plus the shared header and footer on every page
+- [x] 6. Wrapper pages: Home, For Teachers, Privacy, About, Learn More, plus the shared header and footer on every page. Also a draft `404.html` (finished at deploy) and a short `README.md`. Run-through passes on all 9 pages: internal links, keyboard focus visible at every stop, no sideways scroll at 360 px or 200% zoom, axe clean, all pages under 70 KB.
 - [ ] 7. Final audit and cleanup
 
 ## Next up
 
-Milestone 6 (wrapper pages: home, teachers, about, learn more, privacy, plus a draft 404). Shared modules live in `js/lib/` (random, stats, charts, timing, page).
+Milestone 7 (final audit). Then deployment is a separate step (Prompt 3), which must: replace `[Site Name]` and `[contact email]`, replace `[site root]` in `404.html`, add Open Graph tags and a preview image, add a link to the source repository on the About page, and recheck the outbound links.
 
 ## How to run things
 
@@ -47,6 +47,11 @@ Milestone 6 (wrapper pages: home, teachers, about, learn more, privacy, plus a d
 - **Pattern grids.** 6x6 (the SPEC's default). 16 structured shapes with 10 to 14 cells. Random grids are rejected if they have a straight line of 4 or more (across, down, or diagonal), mirror symmetry, or more than 4 side-by-side touching pairs. Practice uses one shape and one random grid.
 - **Pattern pause.** Pausing or switching tabs during the 5-second look throws out that grid and swaps in a fresh one (a new random grid, or an unused shape with the same cell count, so pairs stay matched). Pausing while rebuilding keeps the student's work, since nothing there is timed and there is nothing to gain from leaving.
 - **Pattern outcome.** Differences under 10 percentage points count as "close."
+- **No script on wrapper pages.** SPEC section 2 says each page has one stylesheet and one module script. The wrapper pages (home, teachers, privacy, about, learn more, 404) have nothing to run, so they load only the stylesheet. Fewer files, nothing to break.
+- **Learn More link.** The header holds only the four experiments and For teachers (per SPEC), so Learn More is linked from the home page, the pattern memory page, and the reaction time page's PhET handoff.
+- **About page research sentence.** The pattern memory page links to About with "The person who built this site studies this," so the About page adds one sentence: "My own research looks at how expertise shows up in the timing of decisions, like how long chess players think before a move." The owner should confirm this wording.
+- **Extra standards.** The bonus round also fits NC 2023 science PS.6.3.2 (light and sight) and PS.6.3.3 (sound and hearing), found while checking the grade 6 and 8 standards. Listed on For Teachers.
+- **404 page** is a draft with `[site root]` placeholders, because GitHub Pages serves it at any missing path and relative links would break. Finished at deploy, as the SPEC says.
 - **Mean absolute deviation standard.** The SPEC said MAD is grade 6 math. In North Carolina's current standards it is NC.7.SP.3 (grade 7); grade 6 covers center, variability, and dot plots (NC.6.SP.3 to 5). The For Teachers page will say so. See `dev/sources.md` W-3.
 
 ## Open problems
