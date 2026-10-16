@@ -2,3 +2,4 @@ node_modules/
 dev/node_modules/
 dev/out/
 *.log
+.claude/
