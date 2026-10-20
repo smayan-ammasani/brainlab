@@ -2,6 +2,8 @@
 
 A free, static website where middle school students run real cognitive experiments on themselves, get their own numbers, and then learn the neuroscience behind those numbers.
 
+Live site: https://smayan-ammasani.github.io/brainlab/
+
 Four experiments:
 
 1. **Reaction time**: sight, then sight versus sound.

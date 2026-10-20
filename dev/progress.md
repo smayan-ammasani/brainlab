@@ -12,9 +12,17 @@ The running record of the build. A fresh session should read `CLAUDE.md`, `dev/S
 - [x] 6. Wrapper pages: Home, For Teachers, Privacy, About, Learn More, plus the shared header and footer on every page. Also a draft `404.html` (finished at deploy) and a short `README.md`. Run-through passes on all 9 pages: internal links, keyboard focus visible at every stop, no sideways scroll at 360 px or 200% zoom, axe clean, all pages under 70 KB.
 - [x] 7. Final audit and cleanup. `node dev/audit.mjs` clean (identical CSP on all 10 pages, nothing inline, no storage or network APIs, all URLs outbound links, no em dashes, SVG text alternatives). Full `node dev/e2e.mjs` passes on all 9 pages (zero requests after load, no console errors, axe clean, keyboard focus visible, 360 px and 200% zoom, reduced motion). Largest page 69.4 KB. NC standards confirmed against DPI's official documents. Outbound links checked. Pause code shared via `setPaused()`.
 
+- [x] 8. Deployed (2026-10-20). Live at https://smayan-ammasani.github.io/brainlab/ from the `main` branch root of the public repo https://github.com/smayan-ammasani/brainlab, HTTPS enforced. Name BrainLab and contact email filled in, link-preview tags and `og-image.png` added, `404.html` built for the `/brainlab` path, About page links to the repo. The page run-through passes against the live site on all 9 pages, and the 404 page works at deep missing paths.
+
 ## Next up
 
-The build is done. Deployment is a separate step (Prompt 3), which must: replace `[Site Name]` and `[contact email]`, replace `[site root]` in `404.html`, add Open Graph tags and a preview image, add a link to the source repository on the About page, and recheck the outbound links right before launch.
+Nothing required. Optional:
+- **Custom domain.** If the owner buys one (they mentioned `brainlabb.org`, which looked unregistered on 2026-10-20): run `node dev/site-url.mjs https://brainlabb.org/` (rewrites the preview tags, rebuilds `404.html` for the root path, writes `CNAME`), commit and push, set the domain in the repo's Pages settings (`gh api -X PUT repos/smayan-ammasani/brainlab/pages -f cname=brainlabb.org`), and add the DNS records GitHub lists for an apex domain. Then update the Domain line in `CLAUDE.md`.
+- The human checks in `dev/test-checklist.md`, especially a school Chromebook behind the district filter.
+
+## Publishing changes
+
+Commit, then `git push`. GitHub Pages rebuilds in about a minute. To check the live site: `$env:E2E_BASE = "https://smayan-ammasani.github.io/brainlab/"; node dev/e2e.mjs wrappers` (PowerShell).
 
 ## Remaining [VERIFY] items
 
@@ -57,7 +65,11 @@ None appear on the site. Two SPEC claims could not be confirmed and are kept off
 - **Learn More link.** The header holds only the four experiments and For teachers (per SPEC), so Learn More is linked from the home page and from the pattern memory page's closing links.
 - **About page research sentence.** The pattern memory page links to About with "The person who built this site studies this," so the About page adds one sentence: "My own research looks at how expertise shows up in the timing of decisions, like how long chess players think before a move." The owner should confirm this wording.
 - **Extra standards.** The bonus round also fits NC 2023 science PS.6.3.2 (light and sight) and PS.6.3.3 (sound and hearing), found while checking the grade 6 and 8 standards. Listed on For Teachers.
-- **404 page** is a draft with `[site root]` placeholders, because GitHub Pages serves it at any missing path and relative links would break. Finished at deploy, as the SPEC says.
+- **404 page** is built from `dev/404.template.html` by `node dev/site-url.mjs <site URL>`, because GitHub Pages serves it at any missing path and relative links would break. It is the one page with root-based links (`/brainlab/...`); the audit allows that for this page only.
+- **Link previews.** `og-image.png` (1200x630, about 49 KB) is rendered from `dev/og-image.svg` by `node dev/make-og-image.mjs`. Link previews need a raster image (most sites don't accept SVG), so this is the one raster file. No page loads it, so it doesn't count toward page weight. The Open Graph tags name the site's own public URL; browsers never fetch them, and the audit allows them.
+- **Contact email** appears as a `mailto:` link on For Teachers, About, and Privacy.
+- **Name.** The owner chose BrainLab. Flagged to the owner: Brainlab is also a large Munich medical-technology company (neurosurgery and radiotherapy software). Renaming later is a find-and-replace of "BrainLab" plus re-running `dev/site-url.mjs` and `dev/make-og-image.mjs`.
+- **Local preview config** (`.claude/launch.json`) is gitignored because it holds a path specific to this PC.
 - **Mean absolute deviation standard.** The SPEC said MAD is grade 6 math. In North Carolina's current standards it is NC.7.SP.3 (grade 7); grade 6 covers dot plots and summarizing data (NC.6.SP.4 and 5). The For Teachers page says so. Confirmed against DPI's official documents. See `dev/sources.md` W-3.
 - **Shared pause helper.** All four experiments use `setPaused()` in `js/lib/page.js` to swap their play area for the Paused box. The trial loops themselves stay in each page's script, because each experiment's flow is different enough that a shared runner would be more code, not less.
 - **Static audit.** `node dev/audit.mjs` checks the rules that can be read straight from the files: identical CSP, one stylesheet, at most one external module script, nothing inline, no storage or network APIs, every URL an outbound link, no em dashes anywhere, every SVG has a text alternative or is hidden, page weight, a rough reading-level estimate, and a list of words to review by hand.

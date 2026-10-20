@@ -98,9 +98,15 @@ let browser;
 let base;
 let server;
 
+// Set E2E_BASE to test a deployed copy instead, for example
+// E2E_BASE=https://smayan-ammasani.github.io/brainlab/
 export async function start() {
-  server = await serve();
-  base = `http://127.0.0.1:${server.address().port}/`;
+  if (process.env.E2E_BASE) {
+    base = process.env.E2E_BASE;
+  } else {
+    server = await serve();
+    base = `http://127.0.0.1:${server.address().port}/`;
+  }
   browser = await puppeteer.launch({
     executablePath: CHROME,
     headless: true,
@@ -110,7 +116,7 @@ export async function start() {
 
 export async function stop() {
   await browser.close();
-  server.close();
+  if (server) server.close();
 }
 
 // Opens a page and starts watching for console errors and late network requests.
